@@ -1,0 +1,45 @@
+{
+  "created_at": "2026-09-06T10:30:31.119362+00:00",
+  "parent_recipe": "configs/selected.json",
+  "baseline_non_tta_pq": 0.32210863207584445,
+  "baseline_tta_pq": 0.3313678068265179,
+  "partition": "Original optimization observations for all fitting; original calibration only for exploratory screening. No holdout or test evaluation.",
+  "models": [
+    {
+      "initialize_sha256": "d41c82a2a2310791ff234bc784f765d7b986bf569990ac32a25206c8153f6518",
+      "manifest": "configs/manifests/train_manifest.csv",
+      "manifest_sha256": "ebec49b919b111f0591f1740cc10a470c127371203e7522c683c9ec5a34283b8",
+      "steps": 3000,
+      "width": 24,
+      "depth": 3,
+      "seed": 2026,
+      "learning_rate": 0.0002,
+      "device": "cuda",
+      "run": "batch-dice-finetune-v1",
+      "size": 1024,
+      "crop": 384,
+      "batch_size": 6,
+      "loss_mode": "batch",
+      "question": "Does batch Dice reduce the separate penalty imposed by empty crops and improve validation PQ?"
+    },
+    {
+      "initialize_sha256": "d41c82a2a2310791ff234bc784f765d7b986bf569990ac32a25206c8153f6518",
+      "manifest": "configs/manifests/train_manifest.csv",
+      "manifest_sha256": "ebec49b919b111f0591f1740cc10a470c127371203e7522c683c9ec5a34283b8",
+      "steps": 3000,
+      "width": 24,
+      "depth": 3,
+      "seed": 2026,
+      "learning_rate": 0.0002,
+      "device": "cuda",
+      "run": "native-finetune-v1",
+      "size": 2048,
+      "crop": 768,
+      "batch_size": 2,
+      "loss_mode": "per-image",
+      "question": "Prespecified native refinement while preserving physical crop context; execute on a separate T4 to save local time."
+    }
+  ],
+  "runtime": "Bounded additional Kaggle GPU job; temporary training caches stay under /tmp, outside published outputs. Record the actual CUDA/PyTorch environment.",
+  "advance": "Same calibration and grouped-comparison gates as campaign 02; do not submit using the original checkpoint-specific holdout record."
+}

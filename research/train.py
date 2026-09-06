@@ -11,6 +11,7 @@ import pandas as pd
 import torch
 from scipy import ndimage as ndi
 
+from research.losses import batch_dice_loss
 from research.models import DeepUNet
 from solarseg.data import CompetitionData, sha256
 from solarseg.engine import prepare_cache
@@ -32,6 +33,8 @@ def train(
     depth=4,
     learning_rate=1e-3,
     initialize=None,
+    loss_mode="per-image",
+    cache_root=None,
 ):
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -50,7 +53,10 @@ def train(
     selected = manifest[manifest.role == "train"]
     if selected.empty or crop > size or crop % (2**depth):
         raise ValueError("Invalid training manifest or crop size")
-    cache_dir = out.parent / f"cache-{size}"
+    if loss_mode not in {"per-image", "batch"}:
+        raise ValueError("Unknown Dice aggregation mode")
+    loss_function = segmentation_loss if loss_mode == "per-image" else batch_dice_loss
+    cache_dir = (Path(cache_root) if cache_root else out.parent) / f"cache-{size}"
     prepare_cache(data, selected, cache_dir, size)
     images, targets, positions = [], [], []
     for stem in selected.stem:
@@ -92,7 +98,8 @@ def train(
         "train_stems": selected.stem.tolist(),
         "manifest_sha256": sha256(manifest_path),
         "annotation_sha256": sha256(data.annotation_path),
-        "loss": "BCE + soft Dice",
+        "loss": "BCE + soft Dice" if loss_mode == "per-image" else "BCE + batch soft Dice",
+        "loss_mode": loss_mode,
         "target": "mean of per-annotator binary unions",
         "external_weights": False,
     }
@@ -125,7 +132,7 @@ def train(
         xt = torch.from_numpy(np.stack(xb)[:, None]).to(device)
         yt = torch.from_numpy(np.stack(yb)[:, None]).to(device)
         optimizer.zero_grad(set_to_none=True)
-        loss = segmentation_loss(model(xt), yt)
+        loss = loss_function(model(xt), yt)
         if not torch.isfinite(loss):
             raise RuntimeError("Nonfinite training loss")
         loss.backward()
@@ -164,6 +171,8 @@ if __name__ == "__main__":
     p.add_argument("--device")
     p.add_argument("--learning-rate", type=float, default=1e-3)
     p.add_argument("--initialize")
+    p.add_argument("--loss-mode", choices=["per-image", "batch"], default="per-image")
+    p.add_argument("--cache-root")
     a = p.parse_args()
     print(
         json.dumps(
@@ -181,6 +190,8 @@ if __name__ == "__main__":
                 a.depth,
                 a.learning_rate,
                 a.initialize,
+                a.loss_mode,
+                a.cache_root,
             ),
             indent=2,
         )

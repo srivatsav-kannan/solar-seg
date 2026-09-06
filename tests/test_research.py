@@ -3,6 +3,8 @@
 import numpy as np
 import torch
 
+from research.comparison import paired_comparison
+from research.losses import batch_dice_loss
 from research.make_scoring_folds import build_scoring_folds
 from research.models import DeepUNet
 from research.reconstruction import reconstruct
@@ -72,3 +74,55 @@ def test_scoring_folds_exclude_outer_images_and_embargo_inner_calibration():
                 - dates[(split.role == b).to_numpy()][None, :]
             )
             assert gap.min() > 3 * 86400 * 10**9
+
+
+def test_paired_bootstrap_keeps_annotators_together_and_matches_pooled_gain():
+    base, improved = [], []
+    for i in range(6):
+        for a in range(2):
+            row = {
+                "stem": str(i),
+                "annotator_image": f"{a}-{i}",
+                "n_gt": 2,
+                "tp": 1,
+                "fp": 1,
+                "fn": 1,
+                "iou_sum": 0.7,
+            }
+            base.append(row)
+            improved.append({**row, "iou_sum": 0.8})
+    result = paired_comparison(base, improved, {str(i): i // 2 for i in range(6)}, replicates=100)
+    assert result["groups"] == 3 and result["physical_images"] == 6
+    np.testing.assert_allclose(result["pq_gain"], 0.05)
+    np.testing.assert_allclose(result["paired_block_bootstrap_95ci"], [0.05, 0.05])
+
+
+def test_paired_bootstrap_rejects_missing_and_duplicate_records():
+    import pytest
+
+    row = {
+        "stem": "a",
+        "annotator_image": "a-1",
+        "n_gt": 1,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "iou_sum": 0.6,
+    }
+    with pytest.raises(ValueError, match="same observations"):
+        paired_comparison([row], [], {"a": 0})
+    with pytest.raises(ValueError, match="Repeated"):
+        paired_comparison([row, row], [row, row], {"a": 0})
+
+
+def test_batch_dice_reduces_independent_empty_crop_penalty_with_finite_gradients():
+    target = torch.zeros((2, 1, 32, 32))
+    target[1, 0, 8:24, 8:24] = 1
+    independent = torch.full_like(target, -9.0, requires_grad=True)
+    combined = independent.detach().clone().requires_grad_()
+    segmentation_loss(independent, target).backward()
+    loss = batch_dice_loss(combined, target)
+    loss.backward()
+    assert torch.isfinite(loss) and torch.isfinite(combined.grad).all()
+    assert combined.grad[0].abs().mean() < independent.grad[0].abs().mean() / 10
+    assert combined.grad[1, 0, 12, 12] < 0
