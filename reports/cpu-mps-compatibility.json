@@ -1,0 +1,35 @@
+{
+  "scope": "Three deterministic calibration examples; not an all-image cross-platform equivalence claim",
+  "records": [
+    {
+      "stem": "20110502063154Uh",
+      "max_probability_delta": 3.8683414459228516e-05,
+      "mean_probability_delta": 7.658042200375803e-09,
+      "instance_counts_cpu_mps": [
+        13,
+        13
+      ],
+      "cpu_seconds": 4.619045375000496
+    },
+    {
+      "stem": "20140216230134Lh",
+      "max_probability_delta": 4.4479966163635254e-05,
+      "mean_probability_delta": 1.792408355072439e-08,
+      "instance_counts_cpu_mps": [
+        16,
+        16
+      ],
+      "cpu_seconds": 2.602161917000558
+    },
+    {
+      "stem": "20211222120130Ch",
+      "max_probability_delta": 3.3527612686157227e-05,
+      "mean_probability_delta": 5.651520584848413e-09,
+      "instance_counts_cpu_mps": [
+        6,
+        6
+      ],
+      "cpu_seconds": 2.621977041999344
+    }
+  ]
+}

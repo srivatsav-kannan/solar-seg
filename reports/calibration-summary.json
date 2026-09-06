@@ -1,0 +1,66 @@
+[
+  {
+    "run": "artifacts/unet-v1",
+    "training_run": "artifacts/unet-v1",
+    "tile": 0,
+    "tta": false,
+    "calibration_pq": 0.2750306071256329,
+    "postprocess": {
+      "threshold": 0.6,
+      "min_area": 800,
+      "closing": 3
+    },
+    "training_seconds": 129.0357153749992,
+    "training_steps": 3000,
+    "width": 16,
+    "crop": 256
+  },
+  {
+    "run": "artifacts/unet-v1-tiled",
+    "training_run": "artifacts/unet-v1",
+    "tile": 256,
+    "tta": false,
+    "calibration_pq": 0.28774853902518643,
+    "postprocess": {
+      "threshold": 0.6,
+      "min_area": 400,
+      "closing": 3
+    },
+    "training_seconds": 129.0357153749992,
+    "training_steps": 3000,
+    "width": 16,
+    "crop": 256
+  },
+  {
+    "run": "artifacts/unet-v2",
+    "training_run": "artifacts/unet-v2",
+    "tile": 0,
+    "tta": false,
+    "calibration_pq": 0.32210863207584445,
+    "postprocess": {
+      "threshold": 0.6,
+      "min_area": 400,
+      "closing": 3
+    },
+    "training_seconds": 1227.2609067499998,
+    "training_steps": 6000,
+    "width": 24,
+    "crop": 384
+  },
+  {
+    "run": "artifacts/unet-v2-tta",
+    "training_run": "artifacts/unet-v2",
+    "tile": 0,
+    "tta": true,
+    "calibration_pq": 0.3313678068265179,
+    "postprocess": {
+      "threshold": 0.6,
+      "min_area": 400,
+      "closing": 3
+    },
+    "training_seconds": 1227.2609067499998,
+    "training_steps": 6000,
+    "width": 24,
+    "crop": 384
+  }
+]

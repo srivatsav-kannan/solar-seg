@@ -1,0 +1,8 @@
+{
+  "valid": true,
+  "rows": 1645,
+  "images_processed": 180,
+  "images_with_predictions": 178,
+  "zero_detection_images": 2,
+  "sha256": "4d42e1f7b652801baed85f7513071b98343a8ef5630346934c87dbf2b3f6b1bf"
+}

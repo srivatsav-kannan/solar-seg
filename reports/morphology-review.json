@@ -1,0 +1,19 @@
+{
+  "created_at": "2026-09-06T08:30:02.811240+00:00",
+  "passed": true,
+  "selection_sha256": "f8135610af4c5326ade71c69ad5936f076f05789518923de971c624428016021",
+  "reviewer": "Codex visual inspection; development review, not an expert solar-physics endorsement",
+  "figures": {
+    "calibration-examples.png": "c30daae074518873f0b800848d86b49bbb7b73820738369c21637c843d5707ba",
+    "holdout-diagnostics.png": "b8ebf602ece8afadba5c3581572a2f30a9b7f22dee936c1ee42aa3c1f7e0abf6"
+  },
+  "selection_method": "Worst, median and best physical-image calibration PQ among observations with at least three annotated instances; first annotator shown; crop centered on its largest instance.",
+  "observations": [
+    "Predictions follow visible dark structures in the reviewed crops; no all-sun or off-disk mask collapse.",
+    "The worst case fragments and misses a faint curved structure.",
+    "The median case truncates a long faint filament and includes an additional small detection.",
+    "The best case preserves an elongated curved filament and a small neighboring instance.",
+    "Held-out large instances have the weakest size-bin recall (12 of 37 annotated comparisons), supporting longer-context and instance-grouping work."
+  ],
+  "limitations": "Three displayed crops are a systematic qualitative sample, not an exhaustive morphological review. Known errors are acceptable for the declared first-baseline operational gate; more work is needed for competitive performance."
+}

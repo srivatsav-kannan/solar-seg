@@ -19,12 +19,23 @@ This repository contains the actual data audit, training/inference code, literat
 | [Literature review](docs/literature-review.md) | Solar-specific papers and related instance/topology methods; evidence and limitations |
 | [Validation and gates](docs/validation.md) | Grouped splits, metric fidelity, holdout discipline, release criteria |
 | [Experiment ledger](docs/experiments.md) | Measured results, configuration changes, failures, and next experiments |
+| [Development report](output/pdf/baseline-report.pdf) | Four rendered pages in the organizer's template; final contact/form details pending |
 | [Code walkthrough](docs/understanding.md) | What each component does and how to explain the method |
 | [Agent instructions](AGENTS.md) | Rules for future automated or human changes |
 
 ## Measured baseline
 
-The initial classical method reached **0.08265 calibration PQ**. A width-16 U-Net reached **0.27503** after postprocessing calibration. A larger model and tiled inference are being compared before candidate freeze. Holdout and Kaggle results will be recorded when those runs complete; calibration is used for tuning and is not an unbiased generalization estimate.
+The frozen candidate is a width-24 U-Net with four-flip probability averaging. It uses no external weights or labels.
+
+| Measurement | PQ |
+|---|---:|
+| Classical baseline, calibration | 0.08265 |
+| Compact U-Net, calibration | 0.27503 |
+| Larger U-Net, calibration | 0.32211 |
+| Selected model + four flips, calibration | **0.33137** |
+| Selected model, protected holdout | **0.34625** |
+
+The holdout's physical-image bootstrap 95% interval is **[0.32877, 0.36327]**. Calibration was used for tuning; its maximum is optimistically biased. The candidate was frozen before holdout inspection. Server scoring and notebook replay are recorded separately once completed. [Full ledger](docs/experiments.md).
 
 The split is **399 training / 149 calibration / 145 holdout / 14 embargoed physical images**. We group 27-day blocks, keep all annotators of an observation together, audit exact duplicates, and apply a three-day embargo to training observations. Remaining long-range temporal dependence is a limitation. The official pooled, per-annotator PQ implementation is checked numerically against the organizer notebook.
 
@@ -52,6 +63,8 @@ python scripts/reproduce.py --data data/raw --output artifacts/reproduced
 The reproduction script downloads the released checkpoint, verifies its SHA-256 and the input/split fingerprints, runs CPU inference on every test image, and validates `artifacts/reproduced/submission.csv`. The release checkpoint must be published before this command can finish. Platform differences may change a few floating-point boundary decisions; exact cross-architecture bitwise reproduction is not assumed.
 
 The [canonical notebook](notebooks/canonical.ipynb) runs the same modules. Its default is audit + released-model inference. Set `RUN_TRAINING=True` to execute the recorded training recipe; set `RUN_HOLDOUT=True` only for an explicitly labeled reproduction of the already-exposed holdout. Notebook inference replay does not imply training was rerun.
+
+The PDF's editable LaTeX is in `reports/source/`. It was built with TeX Live 2024 and `acmart` 2.03; these system dependencies are separate from the Python requirements. The report preserves the host's fixed subtitle, abstract opening, introduction paragraph, and acknowledgment.
 
 ## Train a new experiment
 
@@ -81,7 +94,7 @@ python -m solarseg predict --run artifacts/my-run --checkpoint artifacts/my-run/
 python -m pip install -r requirements-dev.txt
 python scripts/quality_checks.py
 python scripts/replay_notebook.py
-python scripts/submit.py --run artifacts/SELECTED_RUN --check-only
+python scripts/submit.py --run artifacts/unet-v2-tta --check-only
 # Remove --check-only only for the intended, fully gated submission.
 ```
 

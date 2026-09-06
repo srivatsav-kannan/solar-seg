@@ -1,0 +1,17 @@
+[
+  {
+    "ref": 56050854,
+    "totalBytes": 363475,
+    "date": "2026-09-06T08:34:49.657Z",
+    "description": "solar-seg baseline | grouped holdout PQ 0.3462 | 4d42e1f7b652",
+    "errorDescription": null,
+    "fileName": "submission.csv",
+    "publicScore": null,
+    "privateScore": null,
+    "status": "PENDING",
+    "submittedBy": "srivatsavkannan",
+    "submittedByRef": "srivatsavkannan",
+    "teamName": "Srivatsav Kannan",
+    "url": "/submissions/56050854/56050854.raw"
+  }
+]

@@ -273,6 +273,8 @@ proof = {"created_at": utc_now(), "completed": True, "source_commit": SOURCE_COM
          "environment": environment(), "validation": validation, "elapsed_seconds": elapsed,
          "training_rerun": RUN_TRAINING, "holdout_rerun": RUN_HOLDOUT}
 (WORK / "notebook-proof.json").write_text(json.dumps(proof, indent=2))
+if Path("/kaggle").exists():
+    shutil.rmtree(cache)  # Generated probability maps are not needed in public outputs.
 print("Validated CSV:", WORK / "submission.csv")
 """)
 notebook = nbf.v4.new_notebook(cells=cells)

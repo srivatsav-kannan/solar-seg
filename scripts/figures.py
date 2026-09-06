@@ -82,8 +82,17 @@ for x, y, title, text in labels:
             facecolor="#eef5f6",
         )
     )
-    ax.text(x + 1.825, y + 0.83, title, ha="center", va="center", weight="bold", color="#183f52")
-    ax.text(x + 1.825, y + 0.36, text, ha="center", va="center", fontsize=9)
+    ax.text(
+        x + 1.825,
+        y + 0.83,
+        title,
+        ha="center",
+        va="center",
+        weight="bold",
+        color="#183f52",
+        fontsize=13,
+    )
+    ax.text(x + 1.825, y + 0.36, text, ha="center", va="center", fontsize=12)
 for start, end in [
     ((3.85, 2.36), (4.05, 2.36)),
     ((7.9, 2.36), (8.1, 2.36)),
@@ -160,6 +169,7 @@ plt.close(fig)
 holdout_path = run / "holdout.json"
 if holdout_path.exists():
     h = json.loads(holdout_path.read_text())
+    plt.rcParams.update({"font.size": 12, "axes.titlesize": 11})
     fig, axes = plt.subplots(1, 3, figsize=(12, 3.5), layout="constrained")
     by_site = {
         s: [r for r in h["rows"] if r["stem"].endswith(s)] for s in sorted(manifest.site.unique())

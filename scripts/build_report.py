@@ -33,6 +33,7 @@ def tex_escape(text):
 prefix = template[: template.index(r"\begin{document}")].replace(
     r"\guideStyletrue", r"\guideStylefalse"
 )
+prefix += "\n\\setlength{\\emergencystretch}{1em}\n"
 intro = template.split("\\section{Introduction}\n")[1].split(r"\guide{")[0]
 acknowledgment = template[template.index(r"\section{Acknowledgment}") :]
 body = r"""
@@ -111,14 +112,21 @@ Fragmented GT / merged predictions & FRAGVALUE / MERGEVALUE \\
 \subsection{Uncertainty and failure analysis}
 All annotator comparisons of one physical observation are retained together during bootstrap resampling. This reflects physical-image sampling variability, but does not capture every temporal dependence, random-seed effect, or adaptive research decision. Site-specific intervals and overlap distributions are included in the repository. Positive-pair IoU/Dice plots exclude zero pairs explicitly; misses remain visible in FP/FN counts. Size-stratified recall uses native-area bins below 1,000, 1,000--10,000, and at least 10,000 pixels.
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
-\includegraphics[width=\columnwidth]{../figures/report-example.png}
+\includegraphics[width=\textwidth]{../figures/report-example.png}
 \caption{Systematically selected median calibration case, cropped around the largest instance of the first supplied annotator. Cyan shows that annotator; pink shows predictions. The full repository gallery also includes worst and best cases selected by physical-image PQ.}
 \Description{A grayscale H-alpha crop alongside annotator boundaries and predicted filament boundaries.}
-\end{figure}
+\end{figure*}
 
-Our principal limitations are missing faint structures, false positives on other dark features, boundary mismatch, and imperfect connected-component identity. Independent annotators also disagree about extent and completeness. We preserve the official metric despite its penalties for some physically plausible but unannotated detections. Visual review therefore accompanies quantitative validation. A high pixel overlap is insufficient if the output breaks one object into many fragments or joins distinct objects.
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{../figures/holdout-diagnostics.png}
+\caption{Protected holdout diagnostics. Left: site-wise pooled PQ and physical-image bootstrap intervals. Middle: positive-pair overlap distributions; missing objects remain in FP/FN counts. Right: GT recall by native mask area, showing size-dependent misses.}
+\Description{Six site-specific PQ estimates with confidence intervals, IoU and Dice distributions, and recall in three instance-size bins.}
+\end{figure*}
+
+Our principal limitations are missing faint structures, false positives on other dark features, boundary mismatch, and imperfect connected-component identity. Only 12 of 37 large annotated masks are matched, supporting targeted work on truncation and fragmentation. Independent annotators also disagree about extent and completeness. We preserve the official metric despite its penalties for some physically plausible but unannotated detections. Visual review therefore accompanies quantitative validation. A high pixel overlap is insufficient if the output breaks one object into many fragments or joins distinct objects.
 
 Edge-guided attention~\cite{edgeattnet}, explicit mask-set prediction~\cite{mask2former}, and skeleton-aware losses~\cite{cldice} motivate subsequent controlled experiments. None is implemented in this baseline. Our next priority is native-resolution detail and boundary/affinity supervision, followed by a detector-plus-refiner comparison. Stricter chronological and site-held-out tests, near-duplicate auditing, additional training seeds, and a paired uncertainty analysis are needed before stronger generalization claims. Published Dice or pairwise mIoU values are not compared directly with this competition's PQ.
 
@@ -169,7 +177,16 @@ replacements = {
 }
 for key, value in replacements.items():
     body = body.replace(key, value)
-(out / "main.tex").write_text(prefix + body + acknowledgment)
+body = body.replace(
+    r"\texttt{MAGFiLO\_1.0\_Annotations\_kaggle2026\_train.json}",
+    r"\path{MAGFiLO_1.0_Annotations_kaggle2026_train.json}",
+)
+(out / "main.tex").write_text(
+    "\n".join(
+        line.rstrip() for line in (prefix + body + "\n\\clearpage\n" + acknowledgment).splitlines()
+    )
+    + "\n"
+)
 shutil.copy2(template_dir / "preamble.tex", out / "preamble.tex")
 bib = (
     (template_dir / "main.bib").read_text()
@@ -181,7 +198,11 @@ bib = (
 @inproceedings{cldice,author={Shit, Suprosanna and others},title={clDice: A Novel Topology-Preserving Loss Function for Tubular Structure Segmentation},booktitle={CVPR},year={2021},eprint={2003.07311}}
 """
 )
-(out / "main.bib").write_text(bib)
+bib = bib.replace("@INPROCEEDINGS{ahmadzadeh2024dataset", "@article{ahmadzadeh2024dataset")
+bib = bib.replace("booktitle = {Nature Scientific Data}", "journal = {Scientific Data}")
+bib = bib.replace("series = {Nature Scientific Data},", "")
+bib = bib.replace("eid = {1031},", "")
+(out / "main.bib").write_text("\n".join(line.rstrip() for line in bib.splitlines()) + "\n")
 im = Image.open(root / "reports/figures/calibration-examples.png")
 im.crop((0, im.height // 3, im.width, 2 * im.height // 3)).save(
     root / "reports/figures/report-example.png"

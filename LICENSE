@@ -20,6 +20,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-This license applies to original repository source code and documentation.
-Competition data, third-party publications, and external pretrained weights
+This license applies to original repository source code, documentation, and model
+weights produced by this repository and distributed in its releases.
+Competition data, GONG-derived example figures, organizer report-template material,
+third-party publications, and external pretrained weights
 retain their respective licenses and are not relicensed by this file.

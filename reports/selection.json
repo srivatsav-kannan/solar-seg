@@ -1,0 +1,83 @@
+{
+  "run": "artifacts/unet-v2-tta",
+  "training_run": "artifacts/unet-v2",
+  "tile": 0,
+  "tta": true,
+  "calibration_pq": 0.3313678068265179,
+  "postprocess": {
+    "threshold": 0.6,
+    "min_area": 400,
+    "closing": 3
+  },
+  "created_at": "2026-09-06T08:21:03.528714+00:00",
+  "checkpoint": "artifacts/unet-v2/model.pt",
+  "checkpoint_sha256": "d41c82a2a2310791ff234bc784f765d7b986bf569990ac32a25206c8153f6518",
+  "annotation_sha256": "5da9e92b5a1a1947fd5d57adb6688269625c48ec1ef884daf2a01618c9ed54a1",
+  "manifest_sha256": "ebec49b919b111f0591f1740cc10a470c127371203e7522c683c9ec5a34283b8",
+  "source_hashes": {
+    "solarseg/__init__.py": "32ca1f85bbbc5f820eac7e237cd01ec16027cc5b3e15028d2af265483e0a9b5b",
+    "solarseg/__main__.py": "f887e0af26ca51dc3e89f873e775ffdf4f55426a3d8d25204c4b065a8f312979",
+    "solarseg/data.py": "46152a04d6eafbbaeaa234b0bb461450c0b59324a68fb05d029d71cab3a1313b",
+    "solarseg/engine.py": "9358ebc99df66eb669f32eb83ab8118502f799eaddd9e59d3823b66e6d85e0c5",
+    "solarseg/gates.py": "4081730062166a57be537f2c4bfebf936b305449a1414356b205b0b1cba753f3",
+    "solarseg/metrics.py": "9a2d5e5c1bbc7a89250311d1d45af4cda8cfaac8c7eff7cddf5746f69b015b6b",
+    "solarseg/model.py": "37fe7b0e2edc4997a8221fca12f8eec2b6f5314a665ef89a354a73e9ced1238a",
+    "solarseg/postprocess.py": "9b779c5079ed33cff64e521612726ee67a5222506aa61738c2bd7d8c861cb9ce",
+    "solarseg/provenance.py": "2de76b5d199270f50427787e046a1833293697146064b927c342a8d096fa8ad1",
+    "solarseg/submission.py": "8dc9b08bf2ef1ce473fc28ccc3f49f2fa3e526988cf102d0c4b20d70072ad489",
+    "requirements.txt": "12fac5b80df1c561b5cd85e4ba29f580ed13ebffd6e024bb3ae26a0339a567d2"
+  },
+  "classical_calibration_pq": 0.08265234788493107,
+  "decision": "Highest measured calibration PQ among completed first-campaign candidates.",
+  "candidates": [
+    {
+      "run": "artifacts/unet-v1",
+      "training_run": "artifacts/unet-v1",
+      "tile": 0,
+      "tta": false,
+      "calibration_pq": 0.2750306071256329,
+      "postprocess": {
+        "threshold": 0.6,
+        "min_area": 800,
+        "closing": 3
+      }
+    },
+    {
+      "run": "artifacts/unet-v1-tiled",
+      "training_run": "artifacts/unet-v1",
+      "tile": 256,
+      "tta": false,
+      "calibration_pq": 0.28774853902518643,
+      "postprocess": {
+        "threshold": 0.6,
+        "min_area": 400,
+        "closing": 3
+      }
+    },
+    {
+      "run": "artifacts/unet-v2",
+      "training_run": "artifacts/unet-v2",
+      "tile": 0,
+      "tta": false,
+      "calibration_pq": 0.32210863207584445,
+      "postprocess": {
+        "threshold": 0.6,
+        "min_area": 400,
+        "closing": 3
+      }
+    },
+    {
+      "run": "artifacts/unet-v2-tta",
+      "training_run": "artifacts/unet-v2",
+      "tile": 0,
+      "tta": true,
+      "calibration_pq": 0.3313678068265179,
+      "postprocess": {
+        "threshold": 0.6,
+        "min_area": 400,
+        "closing": 3
+      }
+    }
+  ],
+  "holdout_used_for_selection": false
+}
