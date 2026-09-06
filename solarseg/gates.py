@@ -23,6 +23,8 @@ def build_gates(run, selected_path="configs/selected.json", data_root="data/raw"
     replay = read_json("artifacts/replay/record.json")
     audit = read_json("artifacts/manifests/audit.json")
     params = read_json(run / "postprocess.json")
+    holdout_inference = read_json(run / "probabilities-holdout/metadata.json")
+    test_inference = read_json(run / "probabilities-test/metadata.json")
     data = CompetitionData(data_root)
     validation = validate_submission(run / "submission.csv", data.test_paths)
     current_source = source_hashes()
@@ -44,12 +46,19 @@ def build_gates(run, selected_path="configs/selected.json", data_root="data/raw"
         and holdout["images"] == audit["roles"]["holdout"]
         and holdout["params"] == params
         and selected["created_at"] < holdout["created_at"]
+        and holdout_inference["checkpoint"] == selected["checkpoint_sha256"]
+        and holdout_inference["tta"] == selected["tta"]
+        and holdout_inference["tile"] == selected["tile"]
         and morphology["passed"]
         and morphology["selection_sha256"] == sha256(selected_path),
         "G4_reproduction": replay["passed"]
         and replay["source_hashes"] == current_source
         and replay["submission_sha256"] == validation["sha256"]
         and replay["notebook_sha256"] == sha256("notebooks/canonical.ipynb")
+        and replay["proof"]["checkpoint_sha256"] == selected["checkpoint_sha256"]
+        and test_inference["checkpoint"] == selected["checkpoint_sha256"]
+        and test_inference["tta"] == selected["tta"]
+        and test_inference["tile"] == selected["tile"]
         and validation["images_processed"] == audit["test"],
     }
     result = {
