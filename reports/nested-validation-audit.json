@@ -1,0 +1,8 @@
+{
+  "verified_at": "2026-09-06T09:08:55.743228+00:00",
+  "manifests": 20,
+  "fresh_regeneration_hashes_identical": true,
+  "source_manifest_sha256": "ebec49b919b111f0591f1740cc10a470c127371203e7522c683c9ec5a34283b8",
+  "generator_sha256": "50548731c27f34eae4eb2a5c3d28104587bc7a12e1e86543407945d4b98c49ce",
+  "scope": "Partition preparation and leakage contracts; nested-CV model fitting has not been performed"
+}
