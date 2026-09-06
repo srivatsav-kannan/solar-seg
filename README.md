@@ -34,6 +34,7 @@ The frozen candidate is a width-24 U-Net with four-flip probability averaging. I
 | Classical baseline, calibration | 0.08265 |
 | Compact U-Net, calibration | 0.27503 |
 | Larger U-Net, calibration | 0.32211 |
+| Native-resolution U-Net + tiles, exploratory calibration | 0.29370 |
 | Selected model + four flips, calibration | **0.33137** |
 | Selected model, protected holdout | **0.34625** |
 | Kaggle public leaderboard, submission 56050854 | **0.30** |
@@ -41,6 +42,8 @@ The frozen candidate is a width-24 U-Net with four-flip probability averaging. I
 The holdout's physical-image bootstrap 95% interval is **[0.32877, 0.36327]**. Calibration was used for tuning; its maximum is optimistically biased. The candidate was frozen before holdout inspection. Kaggle returned `COMPLETE` for the first submission on 6 September 2026. Independent local CPU inference and a fresh-kernel notebook replay produced the same CSV: 1,645 instances across 180 processed observations, including two zero-detection images. The public score is an initial baseline; the leading displayed score was 0.56 when checked. [Full ledger](docs/experiments.md), [server receipt](reports/submission-record.json).
 
 The split is **399 training / 149 calibration / 145 holdout / 14 embargoed physical images**. We group 27-day blocks, keep all annotators of an observation together, audit exact duplicates, and apply a three-day embargo to training observations. Remaining long-range temporal dependence is a limitation. The official pooled, per-annotator PQ implementation is checked numerically against the organizer notebook.
+
+The later native-resolution screen failed the improvement gate and was rejected without another holdout evaluation or submission. The [next campaign](docs/next-campaign.md) combines context and local detail, with frozen nested-CV manifests and instance-aware alternatives. Those nested-CV models remain to be trained.
 
 ## Install and reproduce
 
@@ -115,6 +118,6 @@ Original code is MIT licensed. Competition data, GONG-derived example figures, t
 
 ## Final-entry obligations
 
-The displayed deadline is **15 November 2026, 06:00 UTC / 11:30 IST**. Recheck the official page before close. A scored CSV is only part of the entry: the hosts require a public Git repository, exact requirements, a complete notebook, reproducible artifacts, a report in their template, and a separate Google form. The template permits four pages of main content, excluding Acknowledgment and References. Keep source public through the 30 November winner announcement.
+The displayed deadline is **15 November 2026, 06:00 UTC / 11:30 IST**. Recheck the official page before close. A scored CSV is only part of the entry: the hosts require a public Git repository, exact requirements, a complete notebook, reproducible artifacts, a report in their template, and a separate Google form. The template permits four pages of main content, excluding Acknowledgment and References. Keep source public through the actual winner announcement; the Important Dates and Prizes pages differ between 30 November and the December conference, as recorded in the requirements register.
 
 The final form requires Google authentication through the available HTTP route. Its exact fields and successful submission receipt remain pending. Contact details, final candidate selection, and the final report must be accurate before that step. See the [requirements register](docs/competition.md) for the full audit and source links.

@@ -23,6 +23,23 @@ Size-stratified holdout recall is 50.85% for masks below 1,000 pixels (706 annot
 
 Holdout inference used MPS. The actual submission and independent notebook replay use CPU. Three deterministic calibration examples showed maximum CPU/MPS probability differences below 0.000045 and identical instance counts. This is a limited compatibility check, not a claim of bitwise equivalence on every image or on Linux. See `reports/cpu-mps-compatibility.json`.
 
+The selected 400-pixel minimum prediction area also imposes a precise small-object limit: a ground-truth mask of at most 200 pixels cannot have IoU strictly above 0.5 with any retained prediction. There are 66 such instances among the 8,199 supplied training annotations. This is a known cost of the calibrated baseline, not a scientific definition of a filament. Future component classification or instance-aware models should test retaining genuine small objects while controlling false detections.
+
+![Recorded optimization histories](../reports/figures/training-curves.png)
+
+These are training-loss trajectories, with a five-checkpoint rolling median over the recorded raw values. Crop geometry and targets differ across runs, so the curves diagnose optimization and do not rank generalization. Calibration PQ determines candidate screening.
+
+## Rejected native-resolution screen
+
+After the baseline holdout was exposed, `configs/native-screen.json` prespecified one exploratory calibration-only comparison. The same width-24 model, 384-pixel crops, batch size six, seed 2026, and 6,000 updates were trained on native 2048-pixel inputs. Training took 1071.7 seconds, excluding cache preparation. The physical crop context is half that of the 1024-pixel baseline.
+
+| Native inference | Calibration PQ | Selected postprocessing |
+|---|---:|---|
+| Full image | 0.28188 | Threshold 0.80, area 800, closing 3 |
+| 384-pixel overlapping tiles | 0.29370 | Threshold 0.60, area 800, closing 3 |
+
+Both used the same 25-setting reconstruction grid. The better native variant is 0.03767 below the selected baseline's calibration PQ and is rejected. No new holdout evaluation, test inference, or competition submission was performed for this model. This result supports prioritizing context together with detail; it does not show that native resolution is inherently inferior. The next campaign's nested manifests are prepared, but its models have not been trained. See `reports/native-screen.json` for the frozen plan and measured results.
+
 ## Reproduction and provenance
 
 The first competition upload is **submission 56050854**, submitted through the Kaggle SDK on 6 September 2026. Kaggle returned `COMPLETE`, no scoring error, and **public PQ 0.30**. The downloaded leaderboard snapshot at 08:51 UTC listed this entry 320th of 521, with a displayed leading score of 0.56. Scores are rounded by the platform; this is a time-stamped development result, not a final rank or a competitive success claim. See `reports/submission-record.json` and `reports/leaderboard-snapshot.json`.

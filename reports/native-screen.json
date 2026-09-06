@@ -1,0 +1,82 @@
+{
+  "completed_at": "2026-09-06T09:26:28.239968+00:00",
+  "plan": {
+    "created_at": "2026-09-06T08:58:21.276749+00:00",
+    "status": "prespecified_exploratory_calibration_screen",
+    "run": "artifacts/unet-native-v1",
+    "comparison": "unet-v2",
+    "size": 2048,
+    "crop": 384,
+    "width": 24,
+    "steps": 6000,
+    "batch_size": 6,
+    "seed": 2026,
+    "device": "mps",
+    "inference_candidates": [
+      {
+        "tile": 0,
+        "tta": false
+      },
+      {
+        "tile": 384,
+        "tta": false
+      }
+    ],
+    "postprocess_grid": "same recorded 25-setting grid",
+    "tuning_partition": "original calibration only",
+    "holdout_access": false,
+    "promotion_requirement": "Advance to subsequent-development cross-validation only if calibration improves by >=0.005 and morphology is credible; do not submit using old holdout evidence.",
+    "tradeoff": "Same crop pixel dimensions and update budget, twice the linear sampling resolution, half the physical context per crop.",
+    "source_hashes": {
+      "solarseg/__init__.py": "32ca1f85bbbc5f820eac7e237cd01ec16027cc5b3e15028d2af265483e0a9b5b",
+      "solarseg/__main__.py": "f887e0af26ca51dc3e89f873e775ffdf4f55426a3d8d25204c4b065a8f312979",
+      "solarseg/data.py": "46152a04d6eafbbaeaa234b0bb461450c0b59324a68fb05d029d71cab3a1313b",
+      "solarseg/engine.py": "9358ebc99df66eb669f32eb83ab8118502f799eaddd9e59d3823b66e6d85e0c5",
+      "solarseg/gates.py": "4081730062166a57be537f2c4bfebf936b305449a1414356b205b0b1cba753f3",
+      "solarseg/metrics.py": "9a2d5e5c1bbc7a89250311d1d45af4cda8cfaac8c7eff7cddf5746f69b015b6b",
+      "solarseg/model.py": "37fe7b0e2edc4997a8221fca12f8eec2b6f5314a665ef89a354a73e9ced1238a",
+      "solarseg/postprocess.py": "9b779c5079ed33cff64e521612726ee67a5222506aa61738c2bd7d8c861cb9ce",
+      "solarseg/provenance.py": "2de76b5d199270f50427787e046a1833293697146064b927c342a8d096fa8ad1",
+      "solarseg/submission.py": "8dc9b08bf2ef1ce473fc28ccc3f49f2fa3e526988cf102d0c4b20d70072ad489",
+      "requirements.txt": "12fac5b80df1c561b5cd85e4ba29f580ed13ebffd6e024bb3ae26a0339a567d2"
+    }
+  },
+  "training_seconds": 1071.6647049170006,
+  "checkpoint_sha256": "74dc4479f5397241948e80a2b7825ffad16a857acbd9be8e86e4014b2b07774d",
+  "results": {
+    "unet-native-v1": {
+      "params": {
+        "threshold": 0.8,
+        "min_area": 800,
+        "closing": 3
+      },
+      "tp": 710,
+      "fp": 823,
+      "fn": 1074,
+      "iou_sum": 467.4986536860596,
+      "pq": 0.2818804062020257,
+      "sq": 0.6584488080085347,
+      "rq": 0.42809767862526377
+    },
+    "unet-native-v1-tiled": {
+      "params": {
+        "threshold": 0.6,
+        "min_area": 800,
+        "closing": 3
+      },
+      "tp": 728,
+      "fp": 817,
+      "fn": 1056,
+      "iou_sum": 488.8631709236344,
+      "pq": 0.29369971218001467,
+      "sq": 0.671515344675322,
+      "rq": 0.4373685791528988
+    }
+  },
+  "selected_baseline_calibration_pq": 0.3313678068265179,
+  "best_delta_from_selected": -0.037668094646503225,
+  "decision": "REJECT: does not clear calibration promotion gate",
+  "new_holdout_evaluation": false,
+  "test_inference_or_submission_for_screen": false,
+  "limitation": "Fixed crop dimensions halve physical context at native resolution; this does not test every possible high-resolution architecture."
+}

@@ -14,6 +14,8 @@ selected = json.loads((root / "configs/selected.json").read_text())
 run = root / selected["run"]
 h = json.loads((run / "holdout.json").read_text())
 cfg = json.loads((root / selected["training_run"] / "config.json").read_text())
+screen = json.loads((root / "reports/native-screen.json").read_text())
+block_ci = json.loads((root / "reports/temporal-bootstrap.json").read_text())["block_bootstrap_95ci"]
 author_path = root / "configs/author.json"
 author = (
     json.loads(author_path.read_text()) if author_path.exists() else {"name": "Srivatsav Kannan"}
@@ -44,12 +46,12 @@ body = r"""
 AUTHORDETAILS
 \begin{abstract}
 This report describes our solution to the Solar Filament Segmentation Challenge~2026, a Kaggle competition on automatic segmentation of solar filaments in GONG H-$\alpha$ observations.
-We train a compact, single-channel U-Net from scratch using only competition-approved labels. Independent annotator unions form soft foreground targets; annotators remain separate in the official instance-aware evaluation. Physical observations are grouped into temporal folds with an embargo. Calibration determines the model and native-resolution instance reconstruction before a protected holdout is opened. The frozen baseline achieves holdout Panoptic Quality (PQ) of HOLDOUTPQ (physical-image bootstrap 95\% interval: CILOW--CIHIGH). We provide modular code, exact package versions, a canonical notebook, checkpoint hashes, visual diagnostics, and fail-closed submission checks. This is a development baseline, not a claim of a final winning method.
+We train a compact, single-channel U-Net from scratch using only competition-approved labels. Independent annotator unions form soft foreground targets; annotators remain separate in the official instance-aware evaluation. Physical observations are grouped into temporal folds with an embargo. Calibration determines the model and native-resolution instance reconstruction before a protected holdout is opened. The frozen baseline achieves holdout Panoptic Quality (PQ) of HOLDOUTPQ (physical-image bootstrap 95\% interval: CILOW--CIHIGH) and Kaggle public PQ 0.30. We provide modular code, exact package versions, a canonical notebook, checkpoints, visual diagnostics, and submission checks. This is a development baseline with substantial performance headroom.
 \end{abstract}
 \maketitle
 \section{Introduction}
 FIXEDINTRO
-Our contribution is a reproducible experimental foundation that makes data provenance, annotator dependence, instance errors, and evaluation uncertainty explicit. A semantic mask alone does not solve the task: gaps can fragment one filament, while bridges can merge distinct filaments. We therefore measure the complete foreground-to-instance pipeline with the organizer's released evaluator rather than select by pixel Dice alone. All experiments in this report were conducted on 6 September 2026. The separate final-entry form and final candidate selection remain pending.
+We report data provenance, annotator dependence, instance errors, and evaluation uncertainty for a reproducible baseline. All reported experiments were run on 6 September 2026. Final contact details and the separate final-entry form remain pending.
 
 \section{Methodology}\label{sec:methodology}
 \subsection{Inputs, annotation policy, and splits}
@@ -110,7 +112,7 @@ Fragmented GT / merged predictions & FRAGVALUE / MERGEVALUE \\
 \end{table}
 
 \subsection{Uncertainty and failure analysis}
-All annotator comparisons of one physical observation are retained together during bootstrap resampling. This reflects physical-image sampling variability, but does not capture every temporal dependence, random-seed effect, or adaptive research decision. Site-specific intervals and overlap distributions are included in the repository. Positive-pair IoU/Dice plots exclude zero pairs explicitly; misses remain visible in FP/FN counts. Size-stratified recall uses native-area bins below 1,000, 1,000--10,000, and at least 10,000 pixels.
+All annotators of one observation stay together during bootstrap resampling. A stricter sensitivity analysis resamples 27 temporal/duplicate groups: 5,000 draws give interval BLOCKLOW--BLOCKHIGH. Neither interval captures every long-range dependence, random-seed effect, or adaptive research decision. Site intervals and overlap distributions accompany the release. Positive-pair IoU/Dice plots exclude zero pairs; FP/FN counts retain misses. Size-stratified recall uses native-area bins below 1,000, 1,000--10,000, and at least 10,000 pixels.
 
 \begin{figure*}[t]
 \centering
@@ -128,12 +130,10 @@ All annotator comparisons of one physical observation are retained together duri
 
 Our principal limitations are missing faint structures, false positives on other dark features, boundary mismatch, and imperfect connected-component identity. Only 12 of 37 large annotated masks are matched, supporting targeted work on truncation and fragmentation. Independent annotators also disagree about extent and completeness. We preserve the official metric despite its penalties for some physically plausible but unannotated detections. Visual review therefore accompanies quantitative validation. A high pixel overlap is insufficient if the output breaks one object into many fragments or joins distinct objects.
 
-Edge-guided attention~\cite{edgeattnet}, explicit mask-set prediction~\cite{mask2former}, and skeleton-aware losses~\cite{cldice} motivate subsequent controlled experiments. None is implemented in this baseline. Our next priority is native-resolution detail and boundary/affinity supervision, followed by a detector-plus-refiner comparison. Stricter chronological and site-held-out tests, near-duplicate auditing, additional training seeds, and a paired uncertainty analysis are needed before stronger generalization claims. Published Dice or pairwise mIoU values are not compared directly with this competition's PQ.
+After the original holdout was exposed, an exploratory native-resolution screen retained width 24, 384-pixel crops, and 6,000 updates. Calibration PQ was NATIVEFULL for full-image and NATIVETILED for tiled inference, below CALPQ. The smaller physical context per crop is a tradeoff; higher resolution alone did not improve this recipe. This candidate was rejected without further holdout evaluation or submission. Our next priorities combine broad context with local detail, boundary/affinity supervision, and detector-guided refinement. Edge attention~\cite{edgeattnet}, mask-set prediction~\cite{mask2former}, and skeleton losses~\cite{cldice} motivate these unimplemented alternatives. Subsequent-development nested folds are frozen; chronological/site stress tests and near-duplicate auditing remain needed. Published Dice or pairwise mIoU values are not treated as competition PQ.
 
 \subsection{Reproduction and release status}
-The public source repository is \url{https://github.com/srivatsav-kannan/solar-seg}. Its canonical notebook imports the same modules used by the CLI and contains the audit, target construction, training, calibration, evaluation, inference, and serialization workflow. Release inference uses a pinned source revision and a checksummed checkpoint. CPU replay records environment and output hashes; exact bitwise equality across processor architectures is not assumed. Submission gates bind correctness checks, candidate selection, holdout results, morphology review, and notebook replay to the exact CSV.
-
-The source is MIT licensed; competition data and host template material retain their original terms. Raw images, annotations, credentials, and undocumented external weights are excluded from Git history. This development report describes the measured baseline only. Final contact metadata, the competition's Google form, and final submission selection must be completed before the deadline; the repository must remain accessible through the winner announcement.
+The public repository is \url{https://github.com/srivatsav-kannan/solar-seg}. Its canonical notebook runs the CLI's modules for the audit, training, calibration, evaluation, inference, and serialization workflow. Source revisions, checkpoints, and outputs are hashed; Kaggle execution uses an isolated pinned environment. Independent local CPU runs reproduced the exact 1,645-instance CSV, covering all 180 test images with two zero-detection observations. Kaggle submission 56050854 completed successfully with public PQ 0.30. Exact cross-architecture bitwise equality is not assumed. Gates bind correctness, frozen selection, holdout, morphology, and replay evidence to the submitted CSV. The associated public Kaggle notebook and original submitted files are linked from the repository.
 
 """
 details = ""
@@ -159,6 +159,10 @@ replacements = {
     "CILOW": f"{h['bootstrap_95ci'][0]:.4f}",
     "CIHIGH": f"{h['bootstrap_95ci'][1]:.4f}",
     "CALPQ": f"{selected['calibration_pq']:.4f}",
+    "NATIVEFULL": f"{screen['results']['unet-native-v1']['pq']:.4f}",
+    "NATIVETILED": f"{screen['results']['unet-native-v1-tiled']['pq']:.4f}",
+    "BLOCKLOW": f"{block_ci[0]:.4f}",
+    "BLOCKHIGH": f"{block_ci[1]:.4f}",
     "WIDTH": str(cfg["width"]),
     "CROPSIZE": str(cfg["crop"]),
     "STEPS": f"{cfg['steps']:,}",
@@ -202,6 +206,7 @@ bib = bib.replace("@INPROCEEDINGS{ahmadzadeh2024dataset", "@article{ahmadzadeh20
 bib = bib.replace("booktitle = {Nature Scientific Data}", "journal = {Scientific Data}")
 bib = bib.replace("series = {Nature Scientific Data},", "")
 bib = bib.replace("eid = {1031},", "")
+bib = bib.replace("month = dec,", "month = sep,")  # Publisher-deposited DOI date: 2024-09-27.
 (out / "main.bib").write_text("\n".join(line.rstrip() for line in bib.splitlines()) + "\n")
 im = Image.open(root / "reports/figures/calibration-examples.png")
 im.crop((0, im.height // 3, im.width, 2 * im.height // 3)).save(

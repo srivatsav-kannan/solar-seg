@@ -16,6 +16,8 @@ Version 2 introduced kernel isolation but failed because Kaggle's Debian Python 
 
 This uses Jupyter's documented [kernel messaging protocol](https://jupyter-client.readthedocs.io/en/stable/messaging.html) and [interactive execution API](https://jupyter-client.readthedocs.io/en/stable/api/client.html). CPU wheels come from [PyTorch's official installation index](https://pytorch.org/get-started/locally/).
 
+The published Kaggle environment intentionally uses CPU PyTorch for portable inference. For the full training recipe, run the notebook locally with the pinned MPS/CUDA-capable environment, or use the CLI on an appropriate GPU environment. Enabling a Kaggle GPU checkbox alone does not change this CPU-wheel installer. CPU-only retraining can take substantially longer than the default two-hour publication timeout; the default public run is inference reproduction.
+
 ## Local replay and publication
 
 Install the repository environment and register `python -m ipykernel install --user --name solarseg`. Then run:
