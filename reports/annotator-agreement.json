@@ -1,0 +1,22 @@
+{
+  "created_at": "2026-09-06T09:00:53.763600+00:00",
+  "role": "calibration",
+  "physical_images_with_multiple_annotators": 62,
+  "annotator_pairs": 142,
+  "mean_pairwise_pq_per_physical_image": 0.33109138389620296,
+  "median_pairwise_pq_per_physical_image": 0.33597713285005254,
+  "mean_pairwise_foreground_dice_per_physical_image": 0.5978127702266799,
+  "pq_physical_image_quartiles": [
+    0.22057796582581055,
+    0.33597713285005254,
+    0.4172665844853053
+  ],
+  "annotation_sha256": "5da9e92b5a1a1947fd5d57adb6688269625c48ec1ef884daf2a01618c9ed54a1",
+  "manifest_sha256": "ebec49b919b111f0591f1740cc10a470c127371203e7522c683c9ec5a34283b8",
+  "scope": "Pairwise annotator agreement diagnostic, equal weight per physical calibration image",
+  "limitations": [
+    "Not a model performance ceiling or a competition score; pairwise comparisons differ from the full evaluator's pooling",
+    "Annotations can overlap internally, unlike required predicted masks",
+    "Only observations with multiple annotation sets contribute"
+  ]
+}

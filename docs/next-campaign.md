@@ -4,9 +4,17 @@ This is a prospective research plan, not a description of completed experiments.
 
 ## Validation before training
 
-Keep the official input hashes and original physical-image/time groups. Reserve all test images exclusively for automatic inference. Before trying the following architectures, generate and commit a nested grouped cross-validation manifest: five outer folds, inner grouped calibration within each outer training partition, and the same three-day optimization embargo. Fit every outer-fold checkpoint from scratch without that fold's labels. Choose thresholds within its inner calibration partition, then pool the outer-fold annotator counts for the overall PQ; never average fold PQ values as the main metric.
+Keep the official input hashes and original physical-image/time groups. Reserve all test images exclusively for automatic inference. The nested grouped cross-validation manifest index is now frozen in `configs/nested-cv.json`, before any nested-CV model training: five outer folds and three inner folds within each eligible outer training partition. A three-day embargo excludes outer-neighbor observations from both inner optimization and calibration; optimization also stays more than three days from its inner calibration observations. Fit every outer-fold checkpoint from scratch without that fold's labels. Choose thresholds within its inner calibration partition, then pool the outer-fold annotator counts for the overall PQ; never average fold PQ values as the main metric.
 
 Earlier models and analysis used parts of this same corpus. Label this **subsequent development cross-validation**, not a newly untouched test set. Predeclare a stricter chronological stress split and a leave-one-site-out diagnostic before viewing those results. Run a near-duplicate similarity audit in addition to exact-pixel matching. Report all these results, including disagreements, rather than selecting the split that looks best. A genuinely independent future generalization claim needs previously unseen observations and permitted labels.
+
+The deterministic generator is `scripts/make_nested_folds.py`. It creates 15 inner-fit manifests and five outer-refit manifests under `artifacts/nested-cv/`. The public index stores every file hash and role count; the input manifest is already public in `configs/manifests/`. To regenerate into fresh paths:
+
+```bash
+python scripts/make_nested_folds.py --output artifacts/nested-cv-copy --index artifacts/nested-cv-copy-index.json
+```
+
+The new index timestamp/path differ, while per-manifest hashes match. Automated tests verify outer-group exclusion, duplicate integrity, the actual date gaps, and one inner-calibration assignment per eligible physical observation. No nested-CV models have been trained yet.
 
 ## Bounded comparison
 

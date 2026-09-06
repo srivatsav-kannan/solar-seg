@@ -1,0 +1,190 @@
+{
+  "created_at": "2026-09-06T09:03:09.786745+00:00",
+  "source_manifest": "configs/manifests/train_manifest.csv",
+  "source_manifest_sha256": "ebec49b919b111f0591f1740cc10a470c127371203e7522c683c9ec5a34283b8",
+  "generator_sha256": "50548731c27f34eae4eb2a5c3d28104587bc7a12e1e86543407945d4b98c49ce",
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "inner_seed": 2027,
+  "embargo_days": 3,
+  "output_directory": "artifacts/nested-cv",
+  "records": {
+    "outer-0/inner-0.csv": {
+      "sha256": "82f634aba97519c1171850967b6dc82e11e5dfcf617948a92b52ce4612efc666",
+      "roles": {
+        "train": 353,
+        "calibration": 193,
+        "holdout": 145,
+        "embargo": 16
+      }
+    },
+    "outer-0/inner-1.csv": {
+      "sha256": "af4d0c7895db996cc509333c5c2fc91f21a430a8dc0730309eb5a0ab61592a64",
+      "roles": {
+        "train": 358,
+        "calibration": 189,
+        "holdout": 145,
+        "embargo": 15
+      }
+    },
+    "outer-0/inner-2.csv": {
+      "sha256": "48e3d5128125fa18fa77ac97658f48d64af3d3e4b0101bdb58fa39d56b489bb7",
+      "roles": {
+        "train": 377,
+        "calibration": 167,
+        "holdout": 145,
+        "embargo": 18
+      }
+    },
+    "outer-0/refit.csv": {
+      "sha256": "9ef24ad5ba00cc7c1c71fa66eb0b275bb7b390793b69f6d9565680e807c137cc",
+      "roles": {
+        "train": 549,
+        "holdout": 145,
+        "embargo": 13
+      }
+    },
+    "outer-1/inner-0.csv": {
+      "sha256": "dd3cdeff56ea03149b1cb9fa9576e38e67052a75aae4fb76c4af2d3f3916593d",
+      "roles": {
+        "train": 349,
+        "calibration": 192,
+        "holdout": 149,
+        "embargo": 17
+      }
+    },
+    "outer-1/inner-1.csv": {
+      "sha256": "831151fb725fe99782e8a97d96c630676745673054d22a46eddf55cab72fa176",
+      "roles": {
+        "train": 361,
+        "calibration": 182,
+        "holdout": 149,
+        "embargo": 15
+      }
+    },
+    "outer-1/inner-2.csv": {
+      "sha256": "7bd3588d4427a0410d6b549e60c45567adae2a7eef6a49fab1a4b7f0993697cc",
+      "roles": {
+        "train": 369,
+        "calibration": 179,
+        "holdout": 149,
+        "embargo": 10
+      }
+    },
+    "outer-1/refit.csv": {
+      "sha256": "3ac5cc2753ef83eee121c79c2dd9f9fa65d26e487f6b1997bd3b0855e80aa0d4",
+      "roles": {
+        "train": 553,
+        "holdout": 149,
+        "embargo": 5
+      }
+    },
+    "outer-2/inner-0.csv": {
+      "sha256": "d832d4615691cbb8a20ee0fb30f1f5aeb97977bc75ee3298b7730aff6a75ba33",
+      "roles": {
+        "train": 369,
+        "calibration": 194,
+        "holdout": 129,
+        "embargo": 15
+      }
+    },
+    "outer-2/inner-1.csv": {
+      "sha256": "e4781f8b91377bd04220d67be98e98de24d048584646dc1411dbfb09e858cf31",
+      "roles": {
+        "train": 373,
+        "calibration": 189,
+        "holdout": 129,
+        "embargo": 16
+      }
+    },
+    "outer-2/inner-2.csv": {
+      "sha256": "d8291d34458ac22aefcbac84e924a4c0ddc94710b69ec8a4c309cf65bbc3cf92",
+      "roles": {
+        "train": 377,
+        "calibration": 186,
+        "holdout": 129,
+        "embargo": 15
+      }
+    },
+    "outer-2/refit.csv": {
+      "sha256": "db633b1f265d02de26a6a38b771de09544893d51200853c8e6a1f35ac8f80086",
+      "roles": {
+        "train": 569,
+        "holdout": 129,
+        "embargo": 9
+      }
+    },
+    "outer-3/inner-0.csv": {
+      "sha256": "ba2dc2e95855529bc28682534fcd87b108b6eb66a2944ab75072db0817efd749",
+      "roles": {
+        "train": 349,
+        "calibration": 194,
+        "holdout": 151,
+        "embargo": 13
+      }
+    },
+    "outer-3/inner-1.csv": {
+      "sha256": "b929ebb05b87c8f733aaeb07fa3088d69b0408b0878faa68a5287929756de096",
+      "roles": {
+        "train": 346,
+        "calibration": 195,
+        "holdout": 151,
+        "embargo": 15
+      }
+    },
+    "outer-3/inner-2.csv": {
+      "sha256": "ce1fe39637f19e39aec677e0ed91eb9c0116c7d39d9c5870c4940cb7ac5f9bd3",
+      "roles": {
+        "train": 385,
+        "calibration": 157,
+        "holdout": 151,
+        "embargo": 14
+      }
+    },
+    "outer-3/refit.csv": {
+      "sha256": "1bdea8090a7baa1d57dfc07c6ee78ac7dcda57de0ca05967daba223a3680b1f3",
+      "roles": {
+        "train": 546,
+        "holdout": 151,
+        "embargo": 10
+      }
+    },
+    "outer-4/inner-0.csv": {
+      "sha256": "775d54720720c3a00111e299227f214eb0f7a6b07d51983ff051bd036fc20dfd",
+      "roles": {
+        "train": 389,
+        "calibration": 176,
+        "holdout": 133,
+        "embargo": 9
+      }
+    },
+    "outer-4/inner-1.csv": {
+      "sha256": "b1d70cea0c8d8b02490b50534705f1d001ecb76f60cfe1316fd21215b6d23273",
+      "roles": {
+        "train": 370,
+        "calibration": 189,
+        "holdout": 133,
+        "embargo": 15
+      }
+    },
+    "outer-4/inner-2.csv": {
+      "sha256": "e5f8efe26760cad1de385bb1d76477381b7cd521ff28543df87a74676f0fa81e",
+      "roles": {
+        "train": 359,
+        "calibration": 204,
+        "holdout": 133,
+        "embargo": 11
+      }
+    },
+    "outer-4/refit.csv": {
+      "sha256": "0777e7ff24b78e43fcd8dfc32973568108d7129207fee96c8568f220f24c726c",
+      "roles": {
+        "train": 569,
+        "holdout": 133,
+        "embargo": 5
+      }
+    }
+  },
+  "status": "Prepared before any nested-CV training; no nested-CV model results yet",
+  "limitation": "Subsequent development on a previously analyzed corpus, not an untouched independent test"
+}
