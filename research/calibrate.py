@@ -1,10 +1,12 @@
 """Calibration-only screening; no competition test or original holdout evaluation."""
 
 import argparse
+import gc
 import json
 from pathlib import Path
 
 import pandas as pd
+import torch
 
 from research.predict import ResearchPredictor, predict_cache
 from solarseg.data import CompetitionData, sha256
@@ -36,6 +38,12 @@ def main():
     predictor = ResearchPredictor(a.checkpoint, a.device, a.tta, a.tile, a.size)
     cache = out / "probabilities-calibration"
     predict_cache(data, stems, predictor, cache)
+    del predictor
+    gc.collect()
+    if torch.backends.mps.is_available():
+        torch.mps.empty_cache()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
     best = calibrate(data, stems, cache, out)
     rows = evaluate_cached(data, stems, cache, best["params"])
     record = {
