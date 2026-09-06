@@ -1,0 +1,38 @@
+{
+  "created_at": "2026-09-06T12:43:49.003941+00:00",
+  "checks": {
+    "paired_outer_validation": true,
+    "morphology": true,
+    "frozen_full_training_recipe": true,
+    "approved_inputs": true,
+    "metric_and_grid_correctness": true,
+    "fresh_cpu_reproduction": true
+  },
+  "ready_to_submit": true,
+  "submission_sha256": "9ae19115b1da6a997e3b494e714c631bba17acb711efc76c391cd61e7ffe4ec3",
+  "checkpoint_sha256": "89ec54f951cfd3ec63f65d36d0368d308b8d3a58def2ba814dc5432e80d84540",
+  "selection_sha256": "853e5a8b44309a5017d87ed5a92046bc8bb64ccb250a3dd270894e45cfe9f7aa",
+  "cv_comparison_sha256": "c690bc0b494bb9993f48b9d1886b9c65243eeb181daf7d30923fa224e57c228c",
+  "source_hashes": {
+    "solarseg/__init__.py": "32ca1f85bbbc5f820eac7e237cd01ec16027cc5b3e15028d2af265483e0a9b5b",
+    "solarseg/__main__.py": "f887e0af26ca51dc3e89f873e775ffdf4f55426a3d8d25204c4b065a8f312979",
+    "solarseg/data.py": "46152a04d6eafbbaeaa234b0bb461450c0b59324a68fb05d029d71cab3a1313b",
+    "solarseg/engine.py": "9358ebc99df66eb669f32eb83ab8118502f799eaddd9e59d3823b66e6d85e0c5",
+    "solarseg/gates.py": "4081730062166a57be537f2c4bfebf936b305449a1414356b205b0b1cba753f3",
+    "solarseg/metrics.py": "9a2d5e5c1bbc7a89250311d1d45af4cda8cfaac8c7eff7cddf5746f69b015b6b",
+    "solarseg/model.py": "37fe7b0e2edc4997a8221fca12f8eec2b6f5314a665ef89a354a73e9ced1238a",
+    "solarseg/postprocess.py": "9b779c5079ed33cff64e521612726ee67a5222506aa61738c2bd7d8c861cb9ce",
+    "solarseg/provenance.py": "2de76b5d199270f50427787e046a1833293697146064b927c342a8d096fa8ad1",
+    "solarseg/submission.py": "8dc9b08bf2ef1ce473fc28ccc3f49f2fa3e526988cf102d0c4b20d70072ad489",
+    "requirements.txt": "12fac5b80df1c561b5cd85e4ba29f580ed13ebffd6e024bb3ae26a0339a567d2"
+  },
+  "validation_scope": "All 707 approved observations are training data. No independent internal holdout score is available for these weights. Promotion requires the separate paired CV gates and morphology review.",
+  "validation": {
+    "valid": true,
+    "rows": 1513,
+    "images_processed": 180,
+    "images_with_predictions": 178,
+    "zero_detection_images": 2,
+    "sha256": "9ae19115b1da6a997e3b494e714c631bba17acb711efc76c391cd61e7ffe4ec3"
+  }
+}

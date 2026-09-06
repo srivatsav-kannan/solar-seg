@@ -1,0 +1,35 @@
+{
+  "created_at": "2026-09-06T12:43:49.592214+00:00",
+  "state": "PENDING",
+  "competition": "filament-segmentation-2026",
+  "submission_sha256": "9ae19115b1da6a997e3b494e714c631bba17acb711efc76c391cd61e7ffe4ec3",
+  "checkpoint_sha256": "89ec54f951cfd3ec63f65d36d0368d308b8d3a58def2ba814dc5432e80d84540",
+  "description": "Batch Dice + extra training; paired grouped CV passed; all 707 approved images | 9ae19115b1da",
+  "limits_before": {
+    "numToday": 2,
+    "numTotal": 2,
+    "numAllowedNow": 3,
+    "limitedByTotal": false
+  },
+  "gate_sha256": "b604be1009914445a17966344962b5410b5a0c0c7513b052fb3ff36a691a5742",
+  "response": {
+    "message": "Successfully submitted to Solar Filament Segmentation Challenge 2026",
+    "ref": 56055334
+  },
+  "verified_at": "2026-09-06T12:47:22.405770+00:00",
+  "server": {
+    "ref": 56055334,
+    "totalBytes": 356009,
+    "date": "2026-09-06T12:43:52.313Z",
+    "description": "Batch Dice + extra training; paired grouped CV passed; all 707 approved images | 9ae19115b1da",
+    "errorDescription": null,
+    "fileName": "submission.csv",
+    "publicScore": null,
+    "privateScore": null,
+    "status": "PENDING",
+    "submittedBy": "srivatsavkannan",
+    "submittedByRef": "srivatsavkannan",
+    "teamName": "Srivatsav Kannan",
+    "url": "/submissions/56055334/56055334.raw"
+  }
+}

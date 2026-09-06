@@ -1,0 +1,62 @@
+{
+  "created_at": "2026-09-06T12:47:15.943647+00:00",
+  "scope": "Exploratory original calibration only; per-annotator comparisons, not unique physical objects. No additional inference or parameter selection.",
+  "models": {
+    "baseline": {
+      "source": "artifacts/unet-v2-tta/calibration-selected.json",
+      "source_sha256": "23b1ffc88ed6106900ac758ea312d9bb29acb52952ba990023a78f5aadfc4c24",
+      "counts": {
+        "tp": 1027,
+        "fp": 1286,
+        "fn": 757,
+        "fragmented_gt": 178,
+        "merged_pred": 29
+      },
+      "size_bins": {
+        "small": {
+          "gt": 748,
+          "matched": 408,
+          "recall": 0.5454545454545454
+        },
+        "medium": {
+          "gt": 1013,
+          "matched": 614,
+          "recall": 0.6061204343534057
+        },
+        "large": {
+          "gt": 23,
+          "matched": 5,
+          "recall": 0.21739130434782608
+        }
+      }
+    },
+    "batch_dice": {
+      "source": "artifacts/batch-dice-finetune-v1-tta/calibration-summary.json",
+      "source_sha256": "dbdde0ccdba75022abc701947678683538b6d6e7e9dbfc284ca5975c9b1add5a",
+      "counts": {
+        "tp": 1041,
+        "fp": 1193,
+        "fn": 743,
+        "fragmented_gt": 159,
+        "merged_pred": 32
+      },
+      "size_bins": {
+        "small": {
+          "gt": 748,
+          "matched": 398,
+          "recall": 0.5320855614973262
+        },
+        "medium": {
+          "gt": 1013,
+          "matched": 637,
+          "recall": 0.6288252714708786
+        },
+        "large": {
+          "gt": 23,
+          "matched": 6,
+          "recall": 0.2608695652173913
+        }
+      }
+    }
+  }
+}
