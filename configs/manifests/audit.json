@@ -1,0 +1,24 @@
+{
+  "physical_train": 707,
+  "test": 180,
+  "annotator_images": 1154,
+  "annotations": 8199,
+  "roles": {
+    "train": 399,
+    "calibration": 149,
+    "holdout": 145,
+    "embargo": 14
+  },
+  "sites": {
+    "Lh": 127,
+    "Ch": 125,
+    "Mh": 125,
+    "Bh": 118,
+    "Th": 110,
+    "Uh": 102
+  },
+  "train_annotation_sha256": "5da9e92b5a1a1947fd5d57adb6688269625c48ec1ef884daf2a01618c9ed54a1",
+  "seed": 2026,
+  "split_manifest_sha256": "ebec49b919b111f0591f1740cc10a470c127371203e7522c683c9ec5a34283b8",
+  "exact_duplicate_groups": 0
+}

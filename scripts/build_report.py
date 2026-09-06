@@ -1,0 +1,206 @@
+"""Fill the organizer's template with measured results, then compile LaTeX."""
+
+import json
+import shutil
+import subprocess
+from pathlib import Path
+
+from PIL import Image
+
+root = Path(__file__).resolve().parents[1]
+template_dir = root / "references/official/report-template"
+template = (template_dir / "main.tex").read_text()
+selected = json.loads((root / "configs/selected.json").read_text())
+run = root / selected["run"]
+h = json.loads((run / "holdout.json").read_text())
+cfg = json.loads((root / selected["training_run"] / "config.json").read_text())
+author_path = root / "configs/author.json"
+author = (
+    json.loads(author_path.read_text()) if author_path.exists() else {"name": "Srivatsav Kannan"}
+)
+out = root / "reports/source"
+out.mkdir(parents=True, exist_ok=True)
+pdf_out = root / "output/pdf"
+pdf_out.mkdir(parents=True, exist_ok=True)
+build = root / "reports/report-build"
+build.mkdir(parents=True, exist_ok=True)
+
+
+def tex_escape(text):
+    return str(text).replace("&", r"\&").replace("_", r"\_").replace("%", r"\%")
+
+
+prefix = template[: template.index(r"\begin{document}")].replace(
+    r"\guideStyletrue", r"\guideStylefalse"
+)
+intro = template.split("\\section{Introduction}\n")[1].split(r"\guide{")[0]
+acknowledgment = template[template.index(r"\section{Acknowledgment}") :]
+body = r"""
+\begin{document}
+\title{A Reproducible U-Net Baseline with Grouped Validation}
+\subtitle{A Solution to the Solar Filament Segmentation Challenge 2026}
+\author{AUTHOR}
+AUTHORDETAILS
+\begin{abstract}
+This report describes our solution to the Solar Filament Segmentation Challenge~2026, a Kaggle competition on automatic segmentation of solar filaments in GONG H-$\alpha$ observations.
+We train a compact, single-channel U-Net from scratch using only competition-approved labels. Independent annotator unions form soft foreground targets; annotators remain separate in the official instance-aware evaluation. Physical observations are grouped into temporal folds with an embargo. Calibration determines the model and native-resolution instance reconstruction before a protected holdout is opened. The frozen baseline achieves holdout Panoptic Quality (PQ) of HOLDOUTPQ (physical-image bootstrap 95\% interval: CILOW--CIHIGH). We provide modular code, exact package versions, a canonical notebook, checkpoint hashes, visual diagnostics, and fail-closed submission checks. This is a development baseline, not a claim of a final winning method.
+\end{abstract}
+\maketitle
+\section{Introduction}
+FIXEDINTRO
+Our contribution is a reproducible experimental foundation that makes data provenance, annotator dependence, instance errors, and evaluation uncertainty explicit. A semantic mask alone does not solve the task: gaps can fragment one filament, while bridges can merge distinct filaments. We therefore measure the complete foreground-to-instance pipeline with the organizer's released evaluator rather than select by pixel Dice alone. All experiments in this report were conducted on 6 September 2026. The separate final-entry form and final candidate selection remain pending.
+
+\section{Methodology}\label{sec:methodology}
+\subsection{Inputs, annotation policy, and splits}
+The supplied bundle contains 707 physical training JPEGs and 180 test JPEGs, all $2048\times2048$ grayscale pixels. There are 1,154 annotator-image records and 8,199 instance polygons. Each file can have several independent annotators; splitting these records separately would leak the same observation across partitions. The four chirality categories do not change the single-class output contract.
+
+We use only \texttt{MAGFiLO\_1.0\_Annotations\_kaggle2026\_train.json}. The full public MAGFiLO annotation release overlaps competition test observations and is excluded. No external training images, pretrained weights, manually corrected test masks, filename-based predictions, or auxiliary inference metadata are used. The annotation file and every input file are SHA-256 hashed. Decoded pixels are additionally hashed to find exact duplicates; none were found across train and test.
+
+We assign physical observations to five deterministic grouped folds (seed 2026), using 27-day blocks anchored at 1 January 2010. Blocks connected by exact pixel duplicates would be united. Fold 0 is holdout, fold 1 calibration, and the other folds are optimization data after removing observations within three days of either evaluation partition. The resulting counts are 399 training, 149 calibration, 145 holdout, and 14 embargoed images. This protocol reduces short-range leakage; it does not prove independence of structures persisting beyond the embargo or recurring across rotations. The held-out images span the six GONG site suffixes present in the bundle.
+
+\subsection{Targets and preprocessing}
+For each annotator, polygon masks are rasterized with the COCO API and combined into a binary foreground union. These independent unions are averaged, giving a per-pixel soft target that retains disagreement instead of treating annotators as separate training samples. BOX downsampling preserves partial coverage; targets are cached as 8-bit probabilities. Evaluation never averages or unions annotator ground truths.
+
+JPEG intensities are converted to one luminance channel, scaled to $[0,1]$, resized bilinearly to $1024\times1024$, then normalized by $(x-0.5)/0.25$. We do not apply additional limb flattening: the dataset's JPEG generation already modifies large-scale intensity variation. Half the crops are sampled around a foreground location and half uniformly; physical images are sampled uniformly. Rotations by multiples of 90 degrees, flips, modest gain/offset perturbations, and occasional weak Gaussian blur provide augmentation. No test-time visual edits are made.
+
+\subsection{Model and optimization}
+The baseline follows U-Net's encoder--decoder and skip-connection design~\cite{unet}. At each scale, two $3\times3$ convolutions use GroupNorm and SiLU. Three downsampling stages yield widths $w,2w,4w,8w$; bilinear upsampling and concatenated skips restore resolution. A $1\times1$ head produces one foreground logit. The selected model uses width WIDTH and CROPSIZE-pixel crops. A second compact configuration provides a calibration comparator; all variants use the same physical-image split.
+
+We minimize binary cross-entropy plus soft Dice loss with AdamW, learning rate $10^{-3}$, weight decay $10^{-4}$, a cosine schedule to $10^{-5}$, batch size six, and gradient clipping at one. Training stops after STEPS updates chosen before holdout inspection. The selected run took TRAINSECONDS seconds on local Apple Silicon with 24 GB unified memory, excluding input preparation. This time is specific to this hardware and implementation, and is not a benchmark against published models. Seeds, configuration, loss history, checkpoint checksum, and environment versions accompany the release.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{../figures/pipeline.png}
+\caption{Implemented workflow. Every annotator and crop of one physical observation follows the same fold. Thresholds and instance reconstruction are chosen on calibration before holdout evaluation.}
+\Description{Official data passes through grouped splitting, U-Net foreground learning, probability inference, disjoint instance reconstruction, and evaluated COCO output.}
+\end{figure*}
+
+\subsection{Inference and instance reconstruction}
+INFERENCETEXT
+Probabilities are bilinearly restored to $2048\times2048$ before thresholding. Calibration selected threshold THRESHOLD, a disk-shaped binary closing radius of CLOSING native pixels, and minimum component area AREA native pixels. Eight-connected foreground components become instances. This guarantees exclusive pixel ownership but cannot separate touching filaments without an additional instance representation. The area cutoff suppresses spurious fragments at the cost of small-object recall.
+
+Each nonempty component is encoded as compressed COCO RLE using a Fortran-contiguous byte array. Output has precisely two columns, \texttt{filament\_id} and \texttt{segmentation\_rle}, with one row per instance and the original filename stem preserved. A sidecar records coverage of all 180 images, including zero detections. Preflight rejects invalid probabilities, empty masks, duplicates, overlaps, unknown IDs, and incomplete coverage.
+
+\section{Evaluation}\label{sec:evaluation}
+\subsection{Metric fidelity and candidate selection}
+We reproduce the released organizer implementation of PQ~\cite{panoptic}. For each physical image, one prediction set is compared with each annotator separately. Pairs with strictly greater than 0.5 IoU qualify; matched IoUs, TP, FP, and FN are pooled across annotator-image entries:
+\[
+\mathrm{PQ}=\frac{\sum_{\mathrm{matched}}\mathrm{IoU}}{\mathrm{TP}+0.5\mathrm{FP}+0.5\mathrm{FN}}.
+\]
+We retain the official all-qualifying-pairs behavior where GT overlaps complicate textbook one-to-one assumptions. Background is excluded. Numerical parity tests compare the efficient COCO-RLE implementation with the organizer's tensor functions, including empty sets and the strict threshold. Additional tests cover polygon conversion, asymmetric RLE round trips, split/merge penalties, temporal grouping, inference tiling, and CSV ownership.
+
+The initial postprocessing grid contained 16 settings. After excess calibration false positives were observed, nine settings with larger area cutoffs were added. The compact full-frame model improved from PQ 0.25096 to 0.27503 under this adaptive search; the classical local-background-deficit reference reached 0.08265. Expanded capacity/context and overlapping-tile inference were then compared on calibration. The selected candidate reached CALPQ. These maxima are optimistically biased by tuning; they are not independent validation estimates. The model, inference mode, thresholds, and split checksum were frozen before opening holdout results.
+
+\begin{table}[t]
+\centering
+\caption{Frozen candidate on 145 protected physical images. Counts pool independent annotator comparisons. The interval resamples physical images 1,000 times.}
+\begin{tabular}{lr}
+\toprule
+Measure & Value \\
+\midrule
+PQ & HOLDOUTPQ \\
+95\% bootstrap interval & [CILOW, CIHIGH] \\
+Segmentation quality (SQ) & SQVALUE \\
+Recognition quality (RQ) & RQVALUE \\
+TP / FP / FN & TPVALUE / FPVALUE / FNVALUE \\
+Fragmented GT / merged predictions & FRAGVALUE / MERGEVALUE \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Uncertainty and failure analysis}
+All annotator comparisons of one physical observation are retained together during bootstrap resampling. This reflects physical-image sampling variability, but does not capture every temporal dependence, random-seed effect, or adaptive research decision. Site-specific intervals and overlap distributions are included in the repository. Positive-pair IoU/Dice plots exclude zero pairs explicitly; misses remain visible in FP/FN counts. Size-stratified recall uses native-area bins below 1,000, 1,000--10,000, and at least 10,000 pixels.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{../figures/report-example.png}
+\caption{Systematically selected median calibration case, cropped around the largest instance of the first supplied annotator. Cyan shows that annotator; pink shows predictions. The full repository gallery also includes worst and best cases selected by physical-image PQ.}
+\Description{A grayscale H-alpha crop alongside annotator boundaries and predicted filament boundaries.}
+\end{figure}
+
+Our principal limitations are missing faint structures, false positives on other dark features, boundary mismatch, and imperfect connected-component identity. Independent annotators also disagree about extent and completeness. We preserve the official metric despite its penalties for some physically plausible but unannotated detections. Visual review therefore accompanies quantitative validation. A high pixel overlap is insufficient if the output breaks one object into many fragments or joins distinct objects.
+
+Edge-guided attention~\cite{edgeattnet}, explicit mask-set prediction~\cite{mask2former}, and skeleton-aware losses~\cite{cldice} motivate subsequent controlled experiments. None is implemented in this baseline. Our next priority is native-resolution detail and boundary/affinity supervision, followed by a detector-plus-refiner comparison. Stricter chronological and site-held-out tests, near-duplicate auditing, additional training seeds, and a paired uncertainty analysis are needed before stronger generalization claims. Published Dice or pairwise mIoU values are not compared directly with this competition's PQ.
+
+\subsection{Reproduction and release status}
+The public source repository is \url{https://github.com/srivatsav-kannan/solar-seg}. Its canonical notebook imports the same modules used by the CLI and contains the audit, target construction, training, calibration, evaluation, inference, and serialization workflow. Release inference uses a pinned source revision and a checksummed checkpoint. CPU replay records environment and output hashes; exact bitwise equality across processor architectures is not assumed. Submission gates bind correctness checks, candidate selection, holdout results, morphology review, and notebook replay to the exact CSV.
+
+The source is MIT licensed; competition data and host template material retain their original terms. Raw images, annotations, credentials, and undocumented external weights are excluded from Git history. This development report describes the measured baseline only. Final contact metadata, the competition's Google form, and final submission selection must be completed before the deadline; the repository must remain accessible through the winner announcement.
+
+"""
+details = ""
+if author.get("affiliation"):
+    details += "\\affiliation{\\institution{" + tex_escape(author["affiliation"]) + "}}\n"
+if author.get("email"):
+    details += "\\email{" + tex_escape(author["email"]) + "}\n"
+inference = (
+    f"The selected checkpoint is evaluated using {selected['tile']}-pixel overlapping tiles with 25\\% overlap and positive Hann blending weights."
+    if selected.get("tile")
+    else "The selected checkpoint is evaluated on the complete resized disk."
+)
+inference += (
+    " Four flip predictions are averaged."
+    if selected.get("tta")
+    else " No test-time augmentation is used."
+)
+replacements = {
+    "AUTHORDETAILS": details,
+    "AUTHOR": tex_escape(author["name"]),
+    "FIXEDINTRO": intro,
+    "HOLDOUTPQ": f"{h['pq']:.4f}",
+    "CILOW": f"{h['bootstrap_95ci'][0]:.4f}",
+    "CIHIGH": f"{h['bootstrap_95ci'][1]:.4f}",
+    "CALPQ": f"{selected['calibration_pq']:.4f}",
+    "WIDTH": str(cfg["width"]),
+    "CROPSIZE": str(cfg["crop"]),
+    "STEPS": f"{cfg['steps']:,}",
+    "TRAINSECONDS": f"{cfg['training_seconds']:.1f}",
+    "INFERENCETEXT": inference,
+    "THRESHOLD": str(h["params"]["threshold"]),
+    "CLOSING": str(h["params"]["closing"]),
+    "AREA": str(h["params"]["min_area"]),
+    "SQVALUE": f"{h['sq']:.4f}",
+    "RQVALUE": f"{h['rq']:.4f}",
+    "TPVALUE": str(h["tp"]),
+    "FPVALUE": str(h["fp"]),
+    "FNVALUE": str(h["fn"]),
+    "FRAGVALUE": str(h["fragmented_gt"]),
+    "MERGEVALUE": str(h["merged_pred"]),
+}
+for key, value in replacements.items():
+    body = body.replace(key, value)
+(out / "main.tex").write_text(prefix + body + acknowledgment)
+shutil.copy2(template_dir / "preamble.tex", out / "preamble.tex")
+bib = (
+    (template_dir / "main.bib").read_text()
+    + r"""
+@inproceedings{unet,author={Ronneberger, Olaf and Fischer, Philipp and Brox, Thomas},title={U-Net: Convolutional Networks for Biomedical Image Segmentation},booktitle={MICCAI},year={2015},doi={10.1007/978-3-319-24574-4_28}}
+@inproceedings{panoptic,author={Kirillov, Alexander and He, Kaiming and Girshick, Ross and Rother, Carsten and Dollar, Piotr},title={Panoptic Segmentation},booktitle={CVPR},year={2019},eprint={1801.00868}}
+@misc{edgeattnet,author={Solomon, Victor and Martens, Piet and Liu, Jingyu and Angryk, Rafal},title={EdgeAttNet: Towards Barb-Aware Filament Segmentation},year={2025},eprint={2509.02964},howpublished={arXiv}}
+@inproceedings{mask2former,author={Cheng, Bowen and Misra, Ishan and Schwing, Alexander and Kirillov, Alexander and Girdhar, Rohit},title={Masked-attention Mask Transformer for Universal Image Segmentation},booktitle={CVPR},year={2022},eprint={2112.01527}}
+@inproceedings{cldice,author={Shit, Suprosanna and others},title={clDice: A Novel Topology-Preserving Loss Function for Tubular Structure Segmentation},booktitle={CVPR},year={2021},eprint={2003.07311}}
+"""
+)
+(out / "main.bib").write_text(bib)
+im = Image.open(root / "reports/figures/calibration-examples.png")
+im.crop((0, im.height // 3, im.width, 2 * im.height // 3)).save(
+    root / "reports/figures/report-example.png"
+)
+latex = shutil.which("pdflatex") or "/Library/TeX/texbin/pdflatex"
+bibtex = shutil.which("bibtex") or "/Library/TeX/texbin/bibtex"
+commands = [
+    [latex, "-interaction=nonstopmode", "-halt-on-error", "main.tex"],
+    [bibtex, "main"],
+    [latex, "-interaction=nonstopmode", "-halt-on-error", "main.tex"],
+    [latex, "-interaction=nonstopmode", "-halt-on-error", "main.tex"],
+]
+for command in commands:
+    result = subprocess.run(command, cwd=out, text=True, capture_output=True, check=False)
+    (build / (Path(command[0]).name + ".log")).write_text(result.stdout + result.stderr)
+    if result.returncode:
+        raise RuntimeError(result.stdout[-4000:])
+shutil.copy2(out / "main.pdf", pdf_out / "baseline-report.pdf")
+for path in out.glob("main.*"):
+    if path.suffix not in {".tex", ".bib"}:
+        shutil.move(path, build / path.name)
+print(pdf_out / "baseline-report.pdf")
