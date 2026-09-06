@@ -12,9 +12,12 @@ from solarseg.provenance import source_hashes
 p = argparse.ArgumentParser()
 p.add_argument("--source-commit", required=True)
 p.add_argument("--release-tag", default="baseline-v0.1")
+p.add_argument("--selection", default="configs/selected.json")
+p.add_argument("--output", default="notebooks/canonical.ipynb")
+p.add_argument("--full-refit-plan")
 a = p.parse_args()
 root = Path(__file__).resolve().parents[1]
-selected = json.loads((root / "configs/selected.json").read_text())
+selected = json.loads((root / a.selection).read_text())
 training = json.loads((root / selected["training_run"] / "config.json").read_text())
 cells = []
 
@@ -88,7 +91,7 @@ print("Source revision:", SOURCE_COMMIT)
 bootstrap = bootstrap.replace("SOURCEVALUE", repr(a.source_commit)).replace(
     "HASHVALUE", repr(source_hashes())
 )
-isolation = r'''
+isolation = r"""
 # Kaggle may preload NumPy before this cell. Never upgrade its live kernel.
 # Each %%solarseg cell below runs in one persistent, clean child kernel there.
 from IPython.core.magic import register_cell_magic
@@ -135,7 +138,7 @@ def solarseg(line, cell):
     else:
         result = get_ipython().run_cell(cell)
         result.raise_error()
-'''
+"""
 code(bootstrap + "\nCOMMON_INIT = " + repr(bootstrap) + "\n" + isolation)
 code(f"""
 import time
@@ -321,6 +324,114 @@ if Path("/kaggle").exists():
     shutil.rmtree(cache)  # Generated probability maps are not needed in public outputs.
 print("Validated CSV:", WORK / "submission.csv")
 """)
+if a.full_refit_plan:
+    refit = json.loads((root / a.full_refit_plan).read_text())
+    assert len(training["train_stems"]) == 707
+    assert training["manifest_sha256"] == refit["manifest_sha256"]
+    assert sha256(root / selected["checkpoint"]) == selected["checkpoint_sha256"]
+    assert all(training[k] == v for k, v in refit["recipe"].items())
+    assert a.release_tag != "baseline-v0.1", "Use the new refit checkpoint release"
+    for cell in cells:
+        s = cell.source
+        if cell.cell_type == "markdown":
+            if s.startswith("# Solar filaments:"):
+                s = """# Solar filaments: full-data refit of the validated recipe
+
+This executable notebook refits the previously selected U-Net recipe on all **707 approved
+training observations**, or reproduces its released predictions. The default run loads the
+checkpoint, audits inputs, checks the mask contract, and processes all 180 test images on CPU.
+
+The original 399-image checkpoint achieved protected-holdout PQ 0.34625. That number supports
+the selected recipe; **it is not a held-out score for this refit**. Its former calibration and
+holdout images are now training observations. The original selection workflow and evidence
+remain in the [parent notebook](https://www.kaggle.com/code/srivatsavkannan/solar-filaments-canonical-baseline-2026)
+and [repository](https://github.com/srivatsav-kannan/solar-seg).
+
+Set `RUN_TRAINING=True` for scratch training with the fixed recipe. Inference replay alone
+does not mean training was rerun. Calibration and holdout evaluation are disabled for this
+all-data checkpoint. No automatic competition submission occurs. Use only the competition
+training annotations; the full public MAGFiLO label archive overlaps the test set.
+"""
+            elif s.startswith("## 1."):
+                s += "\n\nThe original split is reproduced for provenance. A separate manifest then assigns all 707 approved observations to final training."
+            elif s.startswith("## 2."):
+                s = s.replace(
+                    "The example below belongs to calibration, and is selected deterministically.",
+                    "The deterministic example belonged to the original calibration split and is now part of final training; this illustration is not independent evaluation.",
+                )
+            elif s.startswith("## 5."):
+                s = """## 5. Apply the previously frozen reconstruction recipe
+
+Threshold, area filtering, closing, and four-flip averaging are fixed from the parent
+selection. Do not tune them on observations used to train this refit. New modeling choices
+require the separate grouped comparison protocol. Restore probabilities to native resolution
+before thresholding, then extract disjoint connected components.
+"""
+            elif s.startswith("## 6."):
+                s = """## 6. Keep validation provenance separate from final fitting
+
+The original protected-holdout result applies to the original 399-image checkpoint. This
+checkpoint trains on all 707 images and has no independent internal holdout. The parent
+notebook documents selection and optional reproduction of its already-exposed holdout.
+Never report a score measured on this refit's own training images as held-out validation.
+"""
+            elif s.startswith("## 8."):
+                s = """## 8. Record evidence and submit only the checked artifact
+
+This refit needs its own gate record: exact parent recipe/source equivalence, all approved
+training observations, checkpoint/input hashes, full CPU inference, a fresh notebook replay,
+and a valid CSV with complete coverage. The original checkpoint-specific gate does not apply
+to these new weights. Check the five-per-day quota and save the server receipt separately.
+
+The final competition entry also requires public code/checkpoints/notebook, the specified
+report, and the authenticated organizer form. This notebook does not submit the CSV or form.
+"""
+        else:
+            s = s.replace('"/kaggle/working/solarseg-run"', '"/kaggle/working/solarseg-refit-run"')
+            s = s.replace('"artifacts/notebook-run"', '"artifacts/notebook-refit-run"')
+            if s.startswith("import time"):
+                s += '\nassert not RUN_HOLDOUT, "The all-data refit has no independent holdout"\n'
+            elif s.startswith("data = CompetitionData"):
+                s += f"""
+full_manifest = manifest.copy()
+full_manifest["role"] = "train"
+full_manifest_path = WORK / "full-training-manifest.csv"
+full_manifest.to_csv(full_manifest_path, index=False)
+assert len(full_manifest) == 707 and set(full_manifest.stem) == set(data.by_stem)
+assert sha256(full_manifest_path) == {refit["manifest_sha256"]!r}
+print("Final training observations:", len(full_manifest))
+"""
+            elif s.startswith("training_run ="):
+                s = s.replace(
+                    'training_run = WORK / "retrained"',
+                    'training_run = Path("/tmp/solarseg-refit-training/retrained") if Path("/kaggle").exists() else WORK / "retrained"',
+                ).replace('WORK / "manifests/train_manifest.csv"', "full_manifest_path")
+                s += """
+if RUN_TRAINING and Path("/kaggle").exists():
+    published_training = WORK / "retrained"
+    published_training.mkdir(exist_ok=False)
+    for name in ["model.pt", "config.json", "history.json"]:
+        shutil.copy2(training_run / name, published_training / name)
+    CHECKPOINT = published_training / "model.pt"
+"""
+            elif s.startswith("predictor = Predictor"):
+                s = """predictor = Predictor(CHECKPOINT, device="cpu", tta=TTA, tile=TILE)
+print("Frozen parent-recipe postprocessing:", PARAMS)
+"""
+            elif s.startswith("if RUN_HOLDOUT:"):
+                s = 'print("No independent holdout evaluation is available for the all-data refit")'
+            elif s.startswith("proof ="):
+                insertion = f"""proof.update(full_data_refit=True,
+    validation_scope={refit["validation_scope"]!r},
+    parent_checkpoint_sha256={refit["parent_checkpoint_sha256"]!r},
+    training_manifest_sha256=sha256(full_manifest_path))
+"""
+                s = s.replace(
+                    '(WORK / "notebook-proof.json").write_text',
+                    insertion + '(WORK / "notebook-proof.json").write_text',
+                )
+        cell.source = s.strip()
+
 notebook = nbf.v4.new_notebook(cells=cells)
 first_code = True
 for cell in notebook.cells:
@@ -335,7 +446,8 @@ notebook.metadata = {
 }
 for i, cell in enumerate(notebook.cells):
     cell.id = f"solarseg-{i:02d}"
-path = root / "notebooks/canonical.ipynb"
+path = root / a.output
+path.parent.mkdir(parents=True, exist_ok=True)
 nbf.write(notebook, path)
 nbf.validate(nbf.read(path, as_version=4))
 print(path, sha256(path))

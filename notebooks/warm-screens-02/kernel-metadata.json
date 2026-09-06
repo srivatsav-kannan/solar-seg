@@ -1,0 +1,20 @@
+{
+  "id": "srivatsavkannan/solar-filaments-warm-start-screens-02",
+  "title": "Solar Filaments Warm Start Screens 02",
+  "code_file": "train.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": false,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "machine_shape": "NvidiaTeslaT4",
+  "competition_sources": [
+    "filament-segmentation-2026"
+  ],
+  "dataset_sources": [],
+  "kernel_sources": [],
+  "model_sources": [],
+  "docker_image_pinning_type": "original",
+  "docker_image": "gcr.io/kaggle-private-byod/python@sha256:37c64f7dd9c54116ecd1bcc88817c5469b88387388fade02bfa8bf3fc647d461"
+}

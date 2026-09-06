@@ -1,0 +1,35 @@
+{
+  "created_at": "2026-09-06T10:48:10.444680+00:00",
+  "run": "artifacts/unet-full-v1",
+  "training_run": "artifacts/unet-full-v1",
+  "checkpoint": "artifacts/unet-full-v1/model.pt",
+  "checkpoint_sha256": "4f96bc349e6e6c7bd22fa6921071eb4ad5a3b90c88737ba4c4c02e9a1e246a08",
+  "annotation_sha256": "5da9e92b5a1a1947fd5d57adb6688269625c48ec1ef884daf2a01618c9ed54a1",
+  "manifest_sha256": "ebec49b919b111f0591f1740cc10a470c127371203e7522c683c9ec5a34283b8",
+  "training_manifest_sha256": "531fc072410a04a77bb15310d4ee3a8ccadfeb85bfa1e0a2d233d5532e2b07b5",
+  "source_hashes": {
+    "solarseg/__init__.py": "32ca1f85bbbc5f820eac7e237cd01ec16027cc5b3e15028d2af265483e0a9b5b",
+    "solarseg/__main__.py": "f887e0af26ca51dc3e89f873e775ffdf4f55426a3d8d25204c4b065a8f312979",
+    "solarseg/data.py": "46152a04d6eafbbaeaa234b0bb461450c0b59324a68fb05d029d71cab3a1313b",
+    "solarseg/engine.py": "9358ebc99df66eb669f32eb83ab8118502f799eaddd9e59d3823b66e6d85e0c5",
+    "solarseg/gates.py": "4081730062166a57be537f2c4bfebf936b305449a1414356b205b0b1cba753f3",
+    "solarseg/metrics.py": "9a2d5e5c1bbc7a89250311d1d45af4cda8cfaac8c7eff7cddf5746f69b015b6b",
+    "solarseg/model.py": "37fe7b0e2edc4997a8221fca12f8eec2b6f5314a665ef89a354a73e9ced1238a",
+    "solarseg/postprocess.py": "9b779c5079ed33cff64e521612726ee67a5222506aa61738c2bd7d8c861cb9ce",
+    "solarseg/provenance.py": "2de76b5d199270f50427787e046a1833293697146064b927c342a8d096fa8ad1",
+    "solarseg/submission.py": "8dc9b08bf2ef1ce473fc28ccc3f49f2fa3e526988cf102d0c4b20d70072ad489",
+    "requirements.txt": "12fac5b80df1c561b5cd85e4ba29f580ed13ebffd6e024bb3ae26a0339a567d2"
+  },
+  "parent_selection_sha256": "f8135610af4c5326ade71c69ad5936f076f05789518923de971c624428016021",
+  "parent_checkpoint_sha256": "d41c82a2a2310791ff234bc784f765d7b986bf569990ac32a25206c8153f6518",
+  "plan_sha256": "03a8e4e5da4e911418175aa7eb2c491a05e4b798494bc88be33b1e399ab776ed",
+  "validation_scope": "Protected holdout PQ 0.346248 belongs to the original 399-image checkpoint. It supports the selected recipe; it is not a held-out score for this all-data refit. Never evaluate or report the original holdout as independent for this checkpoint.",
+  "decision": "Unchanged validated recipe refit on all 707 approved observations; no new architecture or threshold selection.",
+  "tta": true,
+  "tile": 0,
+  "postprocess": {
+    "threshold": 0.6,
+    "min_area": 400,
+    "closing": 3
+  }
+}
