@@ -9,7 +9,7 @@ description = "Reproducible solar filament instance segmentation for MAGFiLO 202
 requires-python = ">=3.12"
 
 [tool.setuptools.packages.find]
-include = ["solarseg*"]
+include = ["solarseg*", "research*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

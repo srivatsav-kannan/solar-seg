@@ -1,0 +1,22 @@
+{
+  "created_at": "2026-09-06T09:50:42.972030+00:00",
+  "checkpoint": "artifacts/unet-v2/model.pt",
+  "reason": "The first model improved with crop-matched tiling; test this inexpensive inference change on the stronger baseline while deeper training runs.",
+  "partition": "Original calibration only",
+  "variants": [
+    {
+      "size": 1024,
+      "tile": 384,
+      "tta": false
+    },
+    {
+      "size": 1024,
+      "tile": 384,
+      "tta": true,
+      "condition": "Run if non-TTA variant is within 0.005 PQ of baseline non-TTA 0.3221086"
+    }
+  ],
+  "grid": "same 25-setting reconstruction grid",
+  "no_holdout_or_test": true,
+  "advancement": "Same subsequent-development validation requirements as campaign 02."
+}

@@ -1,0 +1,50 @@
+{
+  "created_at": "2026-09-06T09:56:56.967211+00:00",
+  "source_manifest_sha256": "ebec49b919b111f0591f1740cc10a470c127371203e7522c683c9ec5a34283b8",
+  "generator_sha256": "c4f2105b6442e389cf6953f145f5940a1a514a28fc2bf684dd04a678ac553a2e",
+  "outer_folds": [
+    2,
+    3,
+    4
+  ],
+  "inner_calibration": "Original fold 1, minus any outer-holdout embargo neighbors",
+  "embargo_days": 3,
+  "records": {
+    "2": {
+      "path": "configs/scoring-cv-02/fold-2.csv",
+      "sha256": "fb5fe9f3ff7db2d6650984bf3fea651700482e956843ebf269ea1e13b5161dc0",
+      "roles": {
+        "train": 418,
+        "calibration": 148,
+        "holdout": 129,
+        "embargo": 12
+      }
+    },
+    "3": {
+      "path": "configs/scoring-cv-02/fold-3.csv",
+      "sha256": "715415a72929ce4f7d183051f9b0a5d75ea15c6ae1b783f27befc896bbbf271e",
+      "roles": {
+        "train": 392,
+        "holdout": 151,
+        "calibration": 149,
+        "embargo": 15
+      }
+    },
+    "4": {
+      "path": "configs/scoring-cv-02/fold-4.csv",
+      "sha256": "79d1ae9930a93a6e9835f3ececcdaffe406641959875afe3be12e084f1258438",
+      "roles": {
+        "train": 417,
+        "calibration": 148,
+        "holdout": 133,
+        "embargo": 9
+      }
+    }
+  },
+  "protocol": "Fit each model from scratch on train only. Tune the identical bounded reconstruction grid on that fit's calibration images. Freeze the candidate before outer inference. Pool annotator counts across the three outer folds; keep physical/time groups together for paired bootstrap.",
+  "promotion": "Require pooled PQ gain >=0.01 over identically split baseline, no outer-fold loss worse than 0.01, and positive paired temporal-group-bootstrap lower bound where supported. Review morphology. Do not tune on the outer scores.",
+  "final_training": "After recipe selection, refit on all approved training observations with fixed hyperparameters. Record that this checkpoint has recipe-level CV evidence, not the old protected-holdout score.",
+  "reason_for_bounded_design": "Prioritize scored model development within available GPU time. Three outer folds with one fixed inner calibration partition replace the more expensive five-by-three plan for this campaign; these are not results from that original full nested-CV plan.",
+  "limitations": "Subsequent development on a previously analyzed corpus. The architecture was informed by previous experiments. This is not a previously untouched external test set. Shared inner calibration limits selection independence; future full nested and chronological/site stress checks remain desirable.",
+  "status": "Frozen before campaign-02 selection and before any of these CV fits"
+}

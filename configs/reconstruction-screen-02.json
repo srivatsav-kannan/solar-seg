@@ -1,0 +1,137 @@
+{
+  "created_at": "2026-09-06T09:52:26.960375+00:00",
+  "manifest": "configs/manifests/train_manifest.csv",
+  "manifest_sha256": "ebec49b919b111f0591f1740cc10a470c127371203e7522c683c9ec5a34283b8",
+  "probabilities": "artifacts/unet-v2-tta/probabilities-calibration",
+  "run": "artifacts/reconstruction-screen-02",
+  "grid": [
+    {
+      "low": 0.3,
+      "high": 0.6,
+      "min_area": 200,
+      "closing": 3,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.3,
+      "high": 0.6,
+      "min_area": 200,
+      "closing": 7,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.3,
+      "high": 0.6,
+      "min_area": 400,
+      "closing": 3,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.3,
+      "high": 0.6,
+      "min_area": 400,
+      "closing": 7,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.3,
+      "high": 0.8,
+      "min_area": 200,
+      "closing": 3,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.3,
+      "high": 0.8,
+      "min_area": 200,
+      "closing": 7,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.3,
+      "high": 0.8,
+      "min_area": 400,
+      "closing": 3,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.3,
+      "high": 0.8,
+      "min_area": 400,
+      "closing": 7,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.45,
+      "high": 0.6,
+      "min_area": 200,
+      "closing": 3,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.45,
+      "high": 0.6,
+      "min_area": 200,
+      "closing": 7,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.45,
+      "high": 0.6,
+      "min_area": 400,
+      "closing": 3,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.45,
+      "high": 0.6,
+      "min_area": 400,
+      "closing": 7,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.45,
+      "high": 0.8,
+      "min_area": 200,
+      "closing": 3,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.45,
+      "high": 0.8,
+      "min_area": 200,
+      "closing": 7,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.45,
+      "high": 0.8,
+      "min_area": 400,
+      "closing": 3,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.45,
+      "high": 0.8,
+      "min_area": 400,
+      "closing": 7,
+      "min_seed_area": 16
+    },
+    {
+      "low": 0.6,
+      "high": 0.6,
+      "min_area": 400,
+      "closing": 7,
+      "min_seed_area": 1
+    },
+    {
+      "low": 0.6,
+      "high": 0.6,
+      "min_area": 400,
+      "closing": 11,
+      "min_seed_area": 1
+    }
+  ],
+  "question": "Can seeded low-confidence region recovery and modestly wider gap closing improve complete-filament PQ?",
+  "scope": "Calibration-only exploratory reconstruction screen before any new holdout or test evaluation. Same subsequent-development gates required."
+}
