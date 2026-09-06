@@ -1,13 +1,16 @@
 {
-  "verified_at": "2026-09-06T08:52:38.125001+00:00",
+  "verified_at": "2026-09-06T09:43:14.108233+00:00",
   "public": true,
   "url": "https://github.com/srivatsav-kannan/solar-seg/releases/tag/baseline-v0.1",
-  "asset_count": 11,
-  "all_uploaded_asset_digests_match": true,
+  "asset_count": 24,
+  "all_manifested_asset_digests_match": true,
   "anonymous_download_verified": [
     "model.pt",
     "checksums.json",
-    "baseline-report.pdf"
+    "baseline-report.pdf",
+    "submission.csv",
+    "baseline-report-updated.pdf",
+    "cloud-notebook-proof.json"
   ],
   "checksums": {
     "LICENSE": "0d9ce21c901a6813694fbfe9ca6e991f1f077347ca26c605bb009b1f20bd0bdc",
@@ -19,6 +22,17 @@
     "selected.json": "f8135610af4c5326ade71c69ad5936f076f05789518923de971c624428016021",
     "submission-gates.json": "c4847ee5328fee9860c4aeb9954a6cef2fa7adaf9dbbc255fae8bea110736cf8",
     "submission-validation.json": "3cf8899c91ca4eb87e4de349de6ddf888fe60622db862482d15516c19d63336e",
-    "training-config.json": "f71a0bef48696c4208f465a134aa1e19b3673bb1de9796d7016cce305ab4648d"
-  }
+    "training-config.json": "f71a0bef48696c4208f465a134aa1e19b3673bb1de9796d7016cce305ab4648d",
+    "submission.images.json": "810963dc0f462b99a206d53383476eb89cbb194cfa1c88ab221c77e98811a062",
+    "submission.csv": "4d42e1f7b652801baed85f7513071b98343a8ef5630346934c87dbf2b3f6b1bf",
+    "submission.validation.json": "3cf8899c91ca4eb87e4de349de6ddf888fe60622db862482d15516c19d63336e",
+    "submission-record.json": "c0ddee7b6b98e519454c6c794ee6f625d21ff278b6fe71b72443b7cb953b254b",
+    "report-qa-updated.json": "c888a420cc2131a5653bd5925f4aef72666dc695bc36480bdf9f190ed0c1e10f",
+    "native-screen.json": "6c83793ad8404e29ace3951f5e99c155e353a045b026bdce83eecab4c221e0ab",
+    "baseline-report-updated.pdf": "9458e882f99c574f37851f0624c0c707b64c495b73440c391f5d11e664c4a4a4",
+    "cloud-notebook-proof.json": "6951d3a0e927b3a3e9a2e796db67d7aa5319c53b35da63ff1e458ca37f9311e0",
+    "cloud-reproduction.json": "48114e4b59388af56a2743aa6c6cfe4e5b423e9a12f66bab93efd453b5ffd609",
+    "notebook-publication.json": "d1229ef369ad154e1f4cf28e4722acf96eb8fff8b686a11964f476e1e729c694"
+  },
+  "note": "Original release assets retain pre-submission evidence; updated report, submitted outputs, and completed Kaggle version 3 proofs have separate checksum manifests."
 }

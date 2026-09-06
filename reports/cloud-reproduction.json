@@ -1,0 +1,41 @@
+{
+  "verified_at": "2026-09-06T09:42:04.837275+00:00",
+  "execution_status": "COMPLETE",
+  "version": 3,
+  "url": "https://www.kaggle.com/code/srivatsavkannan/solar-filaments-canonical-baseline-2026",
+  "canonical_sha256": "f3836e13238b686df2f7333d2467a82e296b505efd03b6842ac1a9af67821da1",
+  "public_source_cells_match": true,
+  "source_hashes_match": true,
+  "checkpoint_sha256": "d41c82a2a2310791ff234bc784f765d7b986bf569990ac32a25206c8153f6518",
+  "csv_matches_scored_submission_byte_for_byte": true,
+  "csv_sha256": "4d42e1f7b652801baed85f7513071b98343a8ef5630346934c87dbf2b3f6b1bf",
+  "scored_submission_ref": 56050854,
+  "coverage_matches": true,
+  "local_validation_of_downloaded_output": {
+    "valid": true,
+    "rows": 1645,
+    "images_processed": 180,
+    "images_with_predictions": 178,
+    "zero_detection_images": 2,
+    "sha256": "4d42e1f7b652801baed85f7513071b98343a8ef5630346934c87dbf2b3f6b1bf"
+  },
+  "inference_and_serialization_seconds": 2690.925578488,
+  "training_rerun": false,
+  "holdout_rerun": false,
+  "cache_scope": "Fresh Kaggle session; generated all 180 test probability maps before serialization. No probability cache was attached or downloaded.",
+  "environment": {
+    "python": "3.12.13",
+    "platform": "Linux-6.12.90+-x86_64-with-glibc2.35",
+    "packages": {
+      "torch": "2.14.0+cpu",
+      "numpy": "2.5.2",
+      "pandas": "3.0.5",
+      "pillow": "12.3.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.0",
+      "pycocotools": "2.0.11"
+    }
+  },
+  "scope": "Observed equality for this checkpoint, data, implementation and two recorded platforms; not a universal numerical determinism guarantee. No duplicate competition submission was made.",
+  "kernel_log_sha256": "947d0e08431098102e109629162b311fca33193b06807901811ea9f68010a437"
+}

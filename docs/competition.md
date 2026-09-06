@@ -17,7 +17,7 @@ The advertised rubric is 70% quantitative (PQ, IoU/Dice distributions, fragmenta
 | At most five submissions per day | Check CLI limits immediately before every submission | Enforced by submission script |
 | At most two final submissions | Select the strongest validated, reproducible candidates before close | Final selection pending |
 | Final reports and solutions due 15 Nov 2026 | Displayed close: **06:00 UTC / 11:30 IST**; recheck before close | Recorded |
-| Winner announcement 30 Nov 2026 | Maintain repository access through at least this date | Recorded |
+| Winner announcement dates differ across pages | Maintain repository access through the actual announcement; see date discrepancy below | Recorded |
 | Conference 14–17 Dec 2026, Phoenix | Attendance optional; not required for prize receipt | Verified organizer reply |
 | Single prediction CSV | `filament_id,segmentation_rle`; row count is variable | Implemented |
 | Every predicted filament has unique ID | `<original_image_stem>_<positive_integer>` | Validated |
@@ -27,9 +27,9 @@ The advertised rubric is 70% quantitative (PQ, IoU/Dice distributions, fragmenta
 | Inference from supplied H-alpha images | Grayscale JPEG input only | Implemented |
 | Public Git repository, accessible without approval | [Public repository](https://github.com/srivatsav-kannan/solar-seg); MIT source license | Verified public |
 | Source public immediately at close until winners announced | Keep public through winner announcement | Public now; ongoing obligation |
-| Public competition code also shared on Kaggle | [Associated canonical notebook](https://www.kaggle.com/code/srivatsavkannan/solar-filaments-canonical-baseline-2026) | Source published; execution evidence tracked separately |
+| Public competition code also shared on Kaggle | [Associated canonical notebook](https://www.kaggle.com/code/srivatsavkannan/solar-filaments-canonical-baseline-2026) | Public version 3 completed; exact submitted CSV reproduced |
 | Exact utilized package versions | `requirements.txt` and optional development pins | Implemented |
-| Notebook demonstrates entire pipeline | Canonical notebook calls reusable modules; training is an explicit opt-in | Implemented; local CPU replay passed |
+| Notebook demonstrates entire pipeline | Canonical notebook calls reusable modules; training is an explicit opt-in | Implemented; local and Kaggle CPU inference replays passed |
 | Reproduce predictions without requesting missing private files | [Checkpoint/config/checksums release](https://github.com/srivatsav-kannan/solar-seg/releases/tag/baseline-v0.1); official input acquired from Kaggle | Anonymous model download verified |
 | Report in supplied Overleaf template, one PDF | Main content at most four pages, excluding Acknowledgment and References; fixed black text preserved | Draft PDF: three main pages + one acknowledgment/reference page; contact details pending |
 | Final Google form, accurate team/contact/repository/report details | Form submission is separate from Kaggle CSV upload | **Pending authenticated access and final package** |

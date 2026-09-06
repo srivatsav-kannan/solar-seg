@@ -20,6 +20,8 @@ The published Kaggle environment intentionally uses CPU PyTorch for portable inf
 
 ## Local replay and publication
 
+The public version 3 completed successfully on 6 September 2026. Its fresh Linux CPU inference produced the exact same CSV bytes as scored submission 56050854: 1,645 instances, 180 processed images, two zero-detection images. The measured inference/serialization time was 2,690.9 seconds, excluding environment installation and the audit cells. The downloaded masks were independently decoded and validated locally. Training and holdout switches were both false. See [the cloud proof](../reports/cloud-notebook-proof.json) and [comparison record](../reports/cloud-reproduction.json).
+
 Install the repository environment and register `python -m ipykernel install --user --name solarseg`. Then run:
 
 ```bash

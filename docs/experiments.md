@@ -50,6 +50,8 @@ The first local notebook finished before its independent reference CSV. Its wrap
 
 The first public Kaggle notebook run failed on a live-kernel NumPy/SciPy version mismatch. The updated notebook isolates its pinned runtime; this changes execution setup, not the selected model, reconstruction parameters, or submitted CSV. See [notebook runtime](notebook-runtime.md) for the failure and reproduction procedure.
 
+Public Kaggle notebook **version 3 completed on 6 September 2026**. A fresh Linux x86-64 CPU run generated predictions for all 180 test images in 2,690.9 seconds including serialization/validation, excluding installation and earlier audit cells. Its CSV hash is exactly the original submitted hash above; the downloaded coverage and validation records also match. The runtime was Python 3.12.13 with PyTorch 2.14.0+cpu. The checkpoint and all core source/requirements hashes match the selected release. This is measured cross-platform inference reproduction, not retraining or a guarantee for all future environments. No duplicate leaderboard submission was made. See `reports/cloud-notebook-proof.json` and `reports/cloud-reproduction.json`.
+
 - Split: 399 optimization / 149 calibration / 145 holdout / 14 embargoed physical images. Seed 2026.
 - Split SHA-256: `ebec49b919b111f0591f1740cc10a470c127371203e7522c683c9ec5a34283b8`.
 - Label SHA-256: `5da9e92b5a1a1947fd5d57adb6688269625c48ec1ef884daf2a01618c9ed54a1`.
