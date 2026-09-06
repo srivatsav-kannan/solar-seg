@@ -1,0 +1,10 @@
+{
+  "checked_at": "2026-09-06T11:47:34.185613+00:00",
+  "kernel": "srivatsavkannan/solar-filaments-full-data-refit-2026",
+  "status": "COMPLETE",
+  "version": 1,
+  "local_and_cloud_csv_identical": true,
+  "submission_sha256": "f829f2275434463a136332ee8e9141da9ab4e994a5b4d795e0e371e0d8df4afb",
+  "checkpoint_sha256": "4f96bc349e6e6c7bd22fa6921071eb4ad5a3b90c88737ba4c4c02e9a1e246a08",
+  "scope": "CPU inference reproduction only; this is the same second submission, not a new score or retraining."
+}

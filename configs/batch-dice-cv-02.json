@@ -1,0 +1,82 @@
+{
+  "created_at": "2026-09-06T11:51:23.204278+00:00",
+  "candidate": "batch Dice plus 3000-update fine-tuning from each fold-specific baseline",
+  "screen_run": "artifacts/batch-dice-finetune-v1-tta",
+  "screen_pq": 0.344386280861957,
+  "screen_paired_comparison": {
+    "reference": {
+      "tp": 1027,
+      "fp": 1286,
+      "fn": 757,
+      "iou_sum": 678.806952284122,
+      "pq": 0.3313678068265179,
+      "sq": 0.6609610051452015,
+      "rq": 0.5013424456919697
+    },
+    "candidate": {
+      "tp": 1041,
+      "fp": 1193,
+      "fn": 743,
+      "iou_sum": 691.8720382516716,
+      "pq": 0.344386280861957,
+      "sq": 0.6646225151312888,
+      "rq": 0.5181682429069189
+    },
+    "pq_gain": 0.013018474035439098,
+    "paired_block_bootstrap_95ci": [
+      0.007506590496766418,
+      0.017772379155961214
+    ],
+    "bootstrap_replicates": 5000,
+    "seed": 2026,
+    "groups": 27,
+    "physical_images": 149,
+    "annotator_records": 251,
+    "limitation": "Fixed-model group resampling; this does not remove model-selection bias or capture retraining uncertainty."
+  },
+  "index_sha256": "28a83391ee36fab0fd5ab2231240e6c6b6a9e91b34179e42bf4214ddf0834602",
+  "recipe": {
+    "size": 1024,
+    "crop": 384,
+    "batch_size": 6,
+    "width": 24,
+    "depth": 3,
+    "steps": 3000,
+    "seed": 2026,
+    "learning_rate": 0.0002,
+    "loss_mode": "batch"
+  },
+  "inference": {
+    "tta": true,
+    "tile": 0
+  },
+  "folds": [
+    {
+      "fold": 2,
+      "manifest": "configs/scoring-cv-02/fold-2.csv",
+      "manifest_sha256": "fb5fe9f3ff7db2d6650984bf3fea651700482e956843ebf269ea1e13b5161dc0",
+      "parent_checkpoint": "artifacts/cloud-cv-02/cv-02-baseline/baseline-fold-2/model.pt",
+      "parent_checkpoint_sha256": "1ede1b720ee3bb994c9b941f5ea5e5ef605855a70154c2e21eaf1819a275ae98",
+      "device": "cuda"
+    },
+    {
+      "fold": 3,
+      "manifest": "configs/scoring-cv-02/fold-3.csv",
+      "manifest_sha256": "715415a72929ce4f7d183051f9b0a5d75ea15c6ae1b783f27befc896bbbf271e",
+      "parent_checkpoint": "artifacts/cloud-cv-02/cv-02-baseline/baseline-fold-3/model.pt",
+      "parent_checkpoint_sha256": "f07070ea55d8fdcc873d71009c80f367227502530ddd3d621990ce3fbacabcda",
+      "device": "cuda"
+    },
+    {
+      "fold": 4,
+      "manifest": "configs/scoring-cv-02/fold-4.csv",
+      "manifest_sha256": "79d1ae9930a93a6e9835f3ececcdaffe406641959875afe3be12e084f1258438",
+      "parent_checkpoint": "artifacts/cloud-cv-02/cv-02-baseline/baseline-fold-4/model.pt",
+      "parent_checkpoint_sha256": "1cd0499be5de55cb798efceae3016eedc1cfb08b025496b95e198be373d9e5f8",
+      "device": "mps"
+    }
+  ],
+  "promotion": "Require pooled PQ gain >=0.01 over identically split baseline, no outer-fold loss worse than 0.01, and positive paired temporal-group-bootstrap lower bound where supported. Review morphology. Do not tune on the outer scores.",
+  "scope": "Subsequent development CV; calibrate per fit, freeze parameters before any outer inference. Baseline remains the 6000-update per-image Dice fit; changes combine the loss and extra training, not an isolated causal loss ablation.",
+  "compute": "Two independent CUDA fits in one bounded Kaggle job; fold 4 on local MPS within remaining free GPU quota. Record actual backend; numerical training equivalence across CUDA/MPS is not assumed."
+}

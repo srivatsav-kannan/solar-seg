@@ -1,0 +1,70 @@
+{
+  "created_at": "2026-09-06T11:01:10.365504+00:00",
+  "passed": true,
+  "submission_sha256": "f829f2275434463a136332ee8e9141da9ab4e994a5b4d795e0e371e0d8df4afb",
+  "expected_submission_sha256": "f829f2275434463a136332ee8e9141da9ab4e994a5b4d795e0e371e0d8df4afb",
+  "notebook_sha256": "8729fb87ae7203c4b7d2950b714d48e375aa85cbc733afc81a4d923f4ec884a0",
+  "source_hashes": {
+    "solarseg/__init__.py": "32ca1f85bbbc5f820eac7e237cd01ec16027cc5b3e15028d2af265483e0a9b5b",
+    "solarseg/__main__.py": "f887e0af26ca51dc3e89f873e775ffdf4f55426a3d8d25204c4b065a8f312979",
+    "solarseg/data.py": "46152a04d6eafbbaeaa234b0bb461450c0b59324a68fb05d029d71cab3a1313b",
+    "solarseg/engine.py": "9358ebc99df66eb669f32eb83ab8118502f799eaddd9e59d3823b66e6d85e0c5",
+    "solarseg/gates.py": "4081730062166a57be537f2c4bfebf936b305449a1414356b205b0b1cba753f3",
+    "solarseg/metrics.py": "9a2d5e5c1bbc7a89250311d1d45af4cda8cfaac8c7eff7cddf5746f69b015b6b",
+    "solarseg/model.py": "37fe7b0e2edc4997a8221fca12f8eec2b6f5314a665ef89a354a73e9ced1238a",
+    "solarseg/postprocess.py": "9b779c5079ed33cff64e521612726ee67a5222506aa61738c2bd7d8c861cb9ce",
+    "solarseg/provenance.py": "2de76b5d199270f50427787e046a1833293697146064b927c342a8d096fa8ad1",
+    "solarseg/submission.py": "8dc9b08bf2ef1ce473fc28ccc3f49f2fa3e526988cf102d0c4b20d70072ad489",
+    "requirements.txt": "12fac5b80df1c561b5cd85e4ba29f580ed13ebffd6e024bb3ae26a0339a567d2"
+  },
+  "proof": {
+    "created_at": "2026-09-06T11:01:07.729131+00:00",
+    "completed": true,
+    "source_commit": "4cc77325af2e4bebba1de4f30f489db72ea35478",
+    "source_hashes": {
+      "solarseg/__init__.py": "32ca1f85bbbc5f820eac7e237cd01ec16027cc5b3e15028d2af265483e0a9b5b",
+      "solarseg/__main__.py": "f887e0af26ca51dc3e89f873e775ffdf4f55426a3d8d25204c4b065a8f312979",
+      "solarseg/data.py": "46152a04d6eafbbaeaa234b0bb461450c0b59324a68fb05d029d71cab3a1313b",
+      "solarseg/engine.py": "9358ebc99df66eb669f32eb83ab8118502f799eaddd9e59d3823b66e6d85e0c5",
+      "solarseg/gates.py": "4081730062166a57be537f2c4bfebf936b305449a1414356b205b0b1cba753f3",
+      "solarseg/metrics.py": "9a2d5e5c1bbc7a89250311d1d45af4cda8cfaac8c7eff7cddf5746f69b015b6b",
+      "solarseg/model.py": "37fe7b0e2edc4997a8221fca12f8eec2b6f5314a665ef89a354a73e9ced1238a",
+      "solarseg/postprocess.py": "9b779c5079ed33cff64e521612726ee67a5222506aa61738c2bd7d8c861cb9ce",
+      "solarseg/provenance.py": "2de76b5d199270f50427787e046a1833293697146064b927c342a8d096fa8ad1",
+      "solarseg/submission.py": "8dc9b08bf2ef1ce473fc28ccc3f49f2fa3e526988cf102d0c4b20d70072ad489",
+      "requirements.txt": "12fac5b80df1c561b5cd85e4ba29f580ed13ebffd6e024bb3ae26a0339a567d2"
+    },
+    "checkpoint_sha256": "4f96bc349e6e6c7bd22fa6921071eb4ad5a3b90c88737ba4c4c02e9a1e246a08",
+    "environment": {
+      "python": "3.12.10",
+      "platform": "macOS-26.5-arm64-arm-64bit",
+      "packages": {
+        "torch": "2.14.0",
+        "numpy": "2.5.2",
+        "pandas": "3.0.5",
+        "pillow": "12.3.0",
+        "scipy": "1.18.1",
+        "scikit-learn": "1.9.0",
+        "pycocotools": "2.0.11"
+      }
+    },
+    "validation": {
+      "valid": true,
+      "rows": 1593,
+      "images_processed": 180,
+      "images_with_predictions": 178,
+      "zero_detection_images": 2,
+      "sha256": "f829f2275434463a136332ee8e9141da9ab4e994a5b4d795e0e371e0d8df4afb"
+    },
+    "elapsed_seconds": 763.5253393750027,
+    "training_rerun": false,
+    "holdout_rerun": false,
+    "full_data_refit": true,
+    "validation_scope": "Protected holdout PQ 0.346248 belongs to the original 399-image checkpoint. It supports the selected recipe; it is not a held-out score for this all-data refit. Never evaluate or report the original holdout as independent for this checkpoint.",
+    "parent_checkpoint_sha256": "d41c82a2a2310791ff234bc784f765d7b986bf569990ac32a25206c8153f6518",
+    "training_manifest_sha256": "531fc072410a04a77bb15310d4ee3a8ccadfeb85bfa1e0a2d233d5532e2b07b5"
+  },
+  "cache_images_before": 0,
+  "selection_sha256": "684257fb3aa07030f76b81b4e4c54ceed36ac15a1b29249cf176681941336a89",
+  "scope": "Fresh kernel, full-input audit and CPU prediction/serialization replay; fingerprinted caches may be reused when cache_images_before is nonzero. Training was not rerun."
+}

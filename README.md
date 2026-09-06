@@ -38,6 +38,9 @@ The frozen candidate is a width-24 U-Net with four-flip probability averaging. I
 | Selected model + four flips, calibration | **0.33137** |
 | Selected model, protected holdout | **0.34625** |
 | Kaggle public leaderboard, submission 56050854 | **0.30** |
+| All-data refit, submission 56053503 | **0.30** |
+
+The second submission refit the same recipe on all 707 approved training images and **did not improve the public score**. Its own fresh local and Kaggle notebook runs reproduced the submitted CSV exactly. The original holdout result does not apply to these refit weights. [Second submission receipt](reports/full-refit-submission-record.json), [refit notebook](notebooks/full_refit.ipynb), [refit artifacts](https://github.com/srivatsav-kannan/solar-seg/releases/tag/full-refit-v0.2).
 
 The holdout's physical-image bootstrap 95% interval is **[0.32877, 0.36327]**. Calibration was used for tuning; its maximum is optimistically biased. The candidate was frozen before holdout inspection. Kaggle returned `COMPLETE` for the first submission on 6 September 2026. Independent local CPU inference and a fresh-kernel notebook replay produced the same CSV: 1,645 instances across 180 processed observations, including two zero-detection images. The public score is an initial baseline; the leading displayed score was 0.56 when checked. [Full ledger](docs/experiments.md), [server receipt](reports/submission-record.json).
 

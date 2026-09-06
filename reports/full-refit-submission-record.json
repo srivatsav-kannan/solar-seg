@@ -1,0 +1,35 @@
+{
+  "created_at": "2026-09-06T11:01:31.329063+00:00",
+  "state": "COMPLETE",
+  "competition": "filament-segmentation-2026",
+  "submission_sha256": "f829f2275434463a136332ee8e9141da9ab4e994a5b4d795e0e371e0d8df4afb",
+  "checkpoint_sha256": "4f96bc349e6e6c7bd22fa6921071eb4ad5a3b90c88737ba4c4c02e9a1e246a08",
+  "description": "Unchanged validated U-Net recipe, all 707 approved training images | f829f2275434",
+  "limits_before": {
+    "numToday": 1,
+    "numTotal": 1,
+    "numAllowedNow": 4,
+    "limitedByTotal": false
+  },
+  "gate_sha256": "769a0a62d11ffb6f72875706278a7b847465c4b4a2665a3a021796a4d0409c79",
+  "response": {
+    "message": "Successfully submitted to Solar Filament Segmentation Challenge 2026",
+    "ref": 56053503
+  },
+  "verified_at": "2026-09-06T11:44:43.899477+00:00",
+  "server": {
+    "ref": 56053503,
+    "totalBytes": 364660,
+    "date": "2026-09-06T11:01:34.240Z",
+    "description": "Unchanged validated U-Net recipe, all 707 approved training images | f829f2275434",
+    "errorDescription": null,
+    "fileName": "submission.csv",
+    "publicScore": "0.30",
+    "privateScore": null,
+    "status": "COMPLETE",
+    "submittedBy": "srivatsavkannan",
+    "submittedByRef": "srivatsavkannan",
+    "teamName": "Srivatsav Kannan",
+    "url": "/submissions/56053503/56053503.raw"
+  }
+}

@@ -25,6 +25,9 @@ def main():
     p.add_argument("--tta", action="store_true")
     p.add_argument("--tile", type=int, default=0)
     p.add_argument("--size", type=int)
+    p.add_argument(
+        "--fast-grid", action="store_true", help="Reuse components; same ordered 25-setting grid"
+    )
     a = p.parse_args()
     out = Path(a.run)
     out.mkdir(parents=True, exist_ok=True)
@@ -44,8 +47,13 @@ def main():
         torch.mps.empty_cache()
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
-    best = calibrate(data, stems, cache, out)
-    rows = evaluate_cached(data, stems, cache, best["params"])
+    if a.fast_grid:
+        from research.fast_calibration import calibrate as fast_calibrate
+
+        best, rows = fast_calibrate(data, stems, cache, out)
+    else:
+        best = calibrate(data, stems, cache, out)
+        rows = evaluate_cached(data, stems, cache, best["params"])
     record = {
         "created_at": utc_now(),
         "checkpoint_sha256": sha256(a.checkpoint),
@@ -55,6 +63,7 @@ def main():
         "confirmed": aggregate(rows),
         "rows": rows,
         "scope": "Exploratory calibration; maximum is selection-biased; no holdout or test access",
+        "grid_implementation": "component reuse" if a.fast_grid else "original sequential",
     }
     (out / "calibration-summary.json").write_text(json.dumps(record, indent=2) + "\n")
     print("SELECTED", json.dumps(best), flush=True)
