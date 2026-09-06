@@ -1,0 +1,60 @@
+{
+  "created_at": "2026-09-06T12:17:42.608759+00:00",
+  "frozen_sha256": "23ffcd9e4626c34b37013d46d68d423fba4b7c0dd0ec1bd75850826280718486",
+  "reference": {
+    "tp": 2712,
+    "fp": 3185,
+    "fn": 2089,
+    "iou_sum": 1793.5961525566709,
+    "pq": 0.3353142928690729,
+    "sq": 0.6613555134795984,
+    "rq": 0.50701065619742
+  },
+  "candidate": {
+    "tp": 2806,
+    "fp": 2980,
+    "fn": 1995,
+    "iou_sum": 1865.2279433655424,
+    "pq": 0.3523619426401327,
+    "sq": 0.6647284188758169,
+    "rq": 0.5300840653631813
+  },
+  "pq_gain": 0.017047649771059825,
+  "paired_block_bootstrap_95ci": [
+    0.011813549699400799,
+    0.02229600858960522
+  ],
+  "bootstrap_replicates": 5000,
+  "seed": 2026,
+  "groups": 78,
+  "physical_images": 413,
+  "annotator_records": 666,
+  "limitation": "Fixed-model group resampling; this does not remove model-selection bias or capture retraining uncertainty.",
+  "fold_pq": {
+    "2": {
+      "baseline": 0.3490765558105722,
+      "candidate": 0.35991325638397015
+    },
+    "3": {
+      "baseline": 0.3378222560801854,
+      "candidate": 0.36465417011496815
+    },
+    "4": {
+      "baseline": 0.3211651996913916,
+      "candidate": 0.33352911410923447
+    }
+  },
+  "fold_gains": {
+    "2": 0.010836700573397973,
+    "3": 0.026831914034782745,
+    "4": 0.012363914417842847
+  },
+  "statistical_gates": {
+    "pooled_gain_at_least_0.01": true,
+    "no_fold_loss_worse_than_0.01": true,
+    "positive_paired_time_group_lower_bound": true
+  },
+  "statistical_gates_passed": true,
+  "morphology_review": "pending",
+  "scope": "Subsequent development on the same corpus; shared inner calibration and earlier exposure limit independence. New recipe combines batch Dice and extra training. No competition test inference or submission."
+}

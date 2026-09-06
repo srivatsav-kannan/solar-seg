@@ -1,0 +1,62 @@
+{
+  "created_at": "2026-09-06T12:02:36.833254+00:00",
+  "run": "artifacts/batch-dice-full-v1",
+  "manifest": "configs/manifests/full_train_manifest.csv",
+  "manifest_sha256": "531fc072410a04a77bb15310d4ee3a8ccadfeb85bfa1e0a2d233d5532e2b07b5",
+  "initialize": "artifacts/unet-full-v1/model.pt",
+  "initialize_sha256": "4f96bc349e6e6c7bd22fa6921071eb4ad5a3b90c88737ba4c4c02e9a1e246a08",
+  "recipe": {
+    "size": 1024,
+    "crop": 384,
+    "batch_size": 6,
+    "width": 24,
+    "depth": 3,
+    "steps": 3000,
+    "seed": 2026,
+    "learning_rate": 0.0002,
+    "loss_mode": "batch"
+  },
+  "inference": {
+    "tta": true,
+    "tile": 0,
+    "postprocess": {
+      "threshold": 0.6,
+      "min_area": 400,
+      "closing": 3
+    }
+  },
+  "cv_plan_sha256": "ccce075599ba65eaefe9fe4bfae8e91794d47ad881696f6a1bee93f885820299",
+  "source_hashes": {
+    "solarseg/__init__.py": "32ca1f85bbbc5f820eac7e237cd01ec16027cc5b3e15028d2af265483e0a9b5b",
+    "solarseg/__main__.py": "f887e0af26ca51dc3e89f873e775ffdf4f55426a3d8d25204c4b065a8f312979",
+    "solarseg/data.py": "46152a04d6eafbbaeaa234b0bb461450c0b59324a68fb05d029d71cab3a1313b",
+    "solarseg/engine.py": "9358ebc99df66eb669f32eb83ab8118502f799eaddd9e59d3823b66e6d85e0c5",
+    "solarseg/gates.py": "4081730062166a57be537f2c4bfebf936b305449a1414356b205b0b1cba753f3",
+    "solarseg/metrics.py": "9a2d5e5c1bbc7a89250311d1d45af4cda8cfaac8c7eff7cddf5746f69b015b6b",
+    "solarseg/model.py": "37fe7b0e2edc4997a8221fca12f8eec2b6f5314a665ef89a354a73e9ced1238a",
+    "solarseg/postprocess.py": "9b779c5079ed33cff64e521612726ee67a5222506aa61738c2bd7d8c861cb9ce",
+    "solarseg/provenance.py": "2de76b5d199270f50427787e046a1833293697146064b927c342a8d096fa8ad1",
+    "solarseg/submission.py": "8dc9b08bf2ef1ce473fc28ccc3f49f2fa3e526988cf102d0c4b20d70072ad489",
+    "requirements.txt": "12fac5b80df1c561b5cd85e4ba29f580ed13ebffd6e024bb3ae26a0339a567d2"
+  },
+  "training_source_hashes": {
+    "research/__init__.py": "308797274e5aec241e830c6516489cccc7bdd0ee933c891288f462a03463125f",
+    "research/calibrate.py": "b8c5f8b5ab494863778c9a9923a4ae7616e7c10f20998254ea1d847355cb9cfb",
+    "research/comparison.py": "f5801dc1478c4b58dd4cc9fd3ce9a246ab1733a9facc0392ae2ee9e2e06379b4",
+    "research/ensemble_screen.py": "de87f2c912b0198577aa9508bfd3472fd0fce58d509d6cb0ce28f1502a5f7aee",
+    "research/evaluate_batch_cv.py": "aeb1d193b29bdc946ce555c38321567b0636d3e6fd21139168e82ea3ef2b807c",
+    "research/fast_calibration.py": "05f24ceccbf78fd705494e342bd7445c4715400b315e1f94d0ac13f89608c37f",
+    "research/losses.py": "6a666a84544ba76cf710c6f3664eadfa6698ebe5bea4c6a15ed222503809a9ea",
+    "research/make_scoring_folds.py": "c4f2105b6442e389cf6953f145f5940a1a514a28fc2bf684dd04a678ac553a2e",
+    "research/models.py": "dd24a08607d979e4a0c33dcdeb54e12d165045765bac5418225e4b35900e45f4",
+    "research/predict.py": "aac6c1f44eb152968c1ac5fbb4de4d0b21b84a02595da7f509464ee71e87fb7c",
+    "research/reconstruction.py": "d23e73c1b1dcc1f23954080aaa995211826fe071745c62561ff25eca778bdee4",
+    "research/reconstruction_screen.py": "452f19754f6aef57f742301f94c871221c29bc8c4655a3f26b4e8c92ff326074",
+    "research/run_full_refit.py": "d8faf3dc1861b52fbac9cb31e4f29acd623ae59cd0a66abd6bdecbdc8a3990e8",
+    "research/train.py": "842c447bba6cf390a535d40c8b1fc8a0a2bcd818494e0541a0d3dd66e0ce34b8"
+  },
+  "purpose": "Prepare a conditional final fit in parallel with the already-frozen CV comparison. This checkpoint is never used for CV or evaluated against its training labels.",
+  "validation_scope": "All 707 approved observations are training data. No independent internal holdout score is available for these weights. Promotion requires the separate paired CV gates and morphology review.",
+  "postprocessing_scope": "Frozen from original development calibration before outer CV evaluation; no outer or test-based threshold adjustment.",
+  "conditional_submission": "No test prediction or submission before paired CV promotion passes. Discard as a submission candidate if those gates fail."
+}

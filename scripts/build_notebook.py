@@ -2,6 +2,8 @@
 
 import argparse
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 import nbformat as nbf
@@ -15,8 +17,26 @@ p.add_argument("--release-tag", default="baseline-v0.1")
 p.add_argument("--selection", default="configs/selected.json")
 p.add_argument("--output", default="notebooks/canonical.ipynb")
 p.add_argument("--full-refit-plan")
+p.add_argument("--batch-dice", action="store_true")
 a = p.parse_args()
 root = Path(__file__).resolve().parents[1]
+if a.batch_dice:
+    subprocess.run(
+        [
+            sys.executable,
+            str(root / "scripts/build_batch_notebook.py"),
+            "--selection",
+            a.selection,
+            "--source-commit",
+            a.source_commit,
+            "--release-tag",
+            a.release_tag,
+            "--output",
+            a.output,
+        ],
+        check=True,
+    )
+    raise SystemExit(0)
 selected = json.loads((root / a.selection).read_text())
 training = json.loads((root / selected["training_run"] / "config.json").read_text())
 cells = []

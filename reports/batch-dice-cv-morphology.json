@@ -1,0 +1,60 @@
+{
+  "created_at": "2026-09-06T12:21:58.025644+00:00",
+  "passed": true,
+  "comparison_sha256": "c690bc0b494bb9993f48b9d1886b9c65243eeb181daf7d30923fa224e57c228c",
+  "image_sha256": "1543ce5d1289665c61e68ca60a67470daf484c3afb619f73bd60a7ceed19925a",
+  "scope": "Visual check of the worst paired physical-image regression in each outer fold, alongside the earlier calibration best/median/worst review. This is a limited morphology review, not expert scientific certification.",
+  "cases": [
+    {
+      "fold": 2,
+      "stem": "20120127085214Th",
+      "pq_change": -0.11144135556381762,
+      "baseline_params": {
+        "threshold": 0.8,
+        "min_area": 400,
+        "closing": 3
+      },
+      "candidate_params": {
+        "threshold": 0.6,
+        "min_area": 400,
+        "closing": 3
+      }
+    },
+    {
+      "fold": 3,
+      "stem": "20130808140054Bh",
+      "pq_change": -0.15916711057136312,
+      "baseline_params": {
+        "threshold": 0.8,
+        "min_area": 400,
+        "closing": 3
+      },
+      "candidate_params": {
+        "threshold": 0.6,
+        "min_area": 400,
+        "closing": 3
+      }
+    },
+    {
+      "fold": 4,
+      "stem": "20141016022554Uh",
+      "pq_change": -0.13399578668682216,
+      "baseline_params": {
+        "threshold": 0.6,
+        "min_area": 400,
+        "closing": 3
+      },
+      "candidate_params": {
+        "threshold": 0.6,
+        "min_area": 400,
+        "closing": 3
+      }
+    }
+  ],
+  "observations": [
+    "Filament-shaped predictions remain aligned with dark image structures; no full-disk/background flooding is visible.",
+    "The worst fold-2 case still misses a prominent curved filament in both models.",
+    "The worst fold-3 and fold-4 cases introduce or retain fragmentation; the aggregate gain does not resolve these cases.",
+    "Promotion follows the positive pooled and per-fold gains with these limitations recorded. No reconstruction parameters or masks were edited after reviewing outer data."
+  ]
+}

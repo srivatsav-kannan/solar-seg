@@ -1,0 +1,34 @@
+{
+  "created_at": "2026-09-06T12:18:29.949929+00:00",
+  "run": "artifacts/batch-dice-full-v1",
+  "training_run": "artifacts/batch-dice-full-v1",
+  "checkpoint": "artifacts/batch-dice-full-v1/model.pt",
+  "checkpoint_sha256": "89ec54f951cfd3ec63f65d36d0368d308b8d3a58def2ba814dc5432e80d84540",
+  "full_fit_plan_sha256": "c393d9b616cd657ffed810d915b25b99f69256aedce009febae13dd6c8646181",
+  "cv_comparison_sha256": "c690bc0b494bb9993f48b9d1886b9c65243eeb181daf7d30923fa224e57c228c",
+  "annotation_sha256": "5da9e92b5a1a1947fd5d57adb6688269625c48ec1ef884daf2a01618c9ed54a1",
+  "manifest_sha256": "ebec49b919b111f0591f1740cc10a470c127371203e7522c683c9ec5a34283b8",
+  "training_manifest_sha256": "531fc072410a04a77bb15310d4ee3a8ccadfeb85bfa1e0a2d233d5532e2b07b5",
+  "source_hashes": {
+    "solarseg/__init__.py": "32ca1f85bbbc5f820eac7e237cd01ec16027cc5b3e15028d2af265483e0a9b5b",
+    "solarseg/__main__.py": "f887e0af26ca51dc3e89f873e775ffdf4f55426a3d8d25204c4b065a8f312979",
+    "solarseg/data.py": "46152a04d6eafbbaeaa234b0bb461450c0b59324a68fb05d029d71cab3a1313b",
+    "solarseg/engine.py": "9358ebc99df66eb669f32eb83ab8118502f799eaddd9e59d3823b66e6d85e0c5",
+    "solarseg/gates.py": "4081730062166a57be537f2c4bfebf936b305449a1414356b205b0b1cba753f3",
+    "solarseg/metrics.py": "9a2d5e5c1bbc7a89250311d1d45af4cda8cfaac8c7eff7cddf5746f69b015b6b",
+    "solarseg/model.py": "37fe7b0e2edc4997a8221fca12f8eec2b6f5314a665ef89a354a73e9ced1238a",
+    "solarseg/postprocess.py": "9b779c5079ed33cff64e521612726ee67a5222506aa61738c2bd7d8c861cb9ce",
+    "solarseg/provenance.py": "2de76b5d199270f50427787e046a1833293697146064b927c342a8d096fa8ad1",
+    "solarseg/submission.py": "8dc9b08bf2ef1ce473fc28ccc3f49f2fa3e526988cf102d0c4b20d70072ad489",
+    "requirements.txt": "12fac5b80df1c561b5cd85e4ba29f580ed13ebffd6e024bb3ae26a0339a567d2"
+  },
+  "validation_scope": "All 707 approved observations are training data. No independent internal holdout score is available for these weights. Promotion requires the separate paired CV gates and morphology review.",
+  "decision": "Passed the frozen paired three-outer-fold statistical gates; morphology and artifact reproduction required before submission.",
+  "tta": true,
+  "tile": 0,
+  "postprocess": {
+    "threshold": 0.6,
+    "min_area": 400,
+    "closing": 3
+  }
+}
