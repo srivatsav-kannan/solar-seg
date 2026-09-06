@@ -1,0 +1,33 @@
+{
+  "created_at": "2026-09-06T08:34:46.839659+00:00",
+  "state": "COMPLETE",
+  "competition": "filament-segmentation-2026",
+  "submission_sha256": "4d42e1f7b652801baed85f7513071b98343a8ef5630346934c87dbf2b3f6b1bf",
+  "description": "solar-seg baseline | grouped holdout PQ 0.3462 | 4d42e1f7b652",
+  "limits_before": {
+    "numToday": 0,
+    "numTotal": 0,
+    "numAllowedNow": 5,
+    "limitedByTotal": false
+  },
+  "response": {
+    "message": "Successfully submitted to Solar Filament Segmentation Challenge 2026",
+    "ref": 56050854
+  },
+  "verified_at": "2026-09-06T08:50:36.202241+00:00",
+  "server": {
+    "ref": 56050854,
+    "totalBytes": 363475,
+    "date": "2026-09-06T08:34:49.657Z",
+    "description": "solar-seg baseline | grouped holdout PQ 0.3462 | 4d42e1f7b652",
+    "errorDescription": null,
+    "fileName": "submission.csv",
+    "publicScore": "0.30",
+    "privateScore": null,
+    "status": "COMPLETE",
+    "submittedBy": "srivatsavkannan",
+    "submittedByRef": "srivatsavkannan",
+    "teamName": "Srivatsav Kannan",
+    "url": "/submissions/56050854/56050854.raw"
+  }
+}

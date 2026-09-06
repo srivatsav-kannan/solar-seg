@@ -20,6 +20,8 @@ p.add_argument(
 )
 a = p.parse_args()
 notebook_path = root / "notebooks/canonical.ipynb"
+notebook_sha = sha256(notebook_path)
+cache_images_before = len(list((root / "artifacts/notebook-run/probabilities-test").glob("*.npy")))
 if not a.record_only:
     notebook = nbformat.read(notebook_path, as_version=4)
     client = NotebookClient(
@@ -30,6 +32,8 @@ if not a.record_only:
     )
     client.execute()
     nbformat.write(notebook, root / "reports/canonical-executed.ipynb")
+    if sha256(notebook_path) != notebook_sha:
+        raise RuntimeError("Canonical notebook changed during execution; evidence was not finalized")
 else:
     executed = nbformat.read(root / "reports/canonical-executed.ipynb", as_version=4)
     canonical = nbformat.read(notebook_path, as_version=4)
@@ -48,10 +52,14 @@ record = {
     "passed": proof["completed"] and proof["validation"]["sha256"] == expected,
     "submission_sha256": proof["validation"]["sha256"],
     "expected_submission_sha256": expected,
-    "notebook_sha256": sha256(notebook_path),
+    "notebook_sha256": notebook_sha,
     "source_hashes": source_hashes(),
     "proof": proof,
-    "scope": "Fresh kernel, full-input audit and CPU inference replay; training was not rerun",
+    "cache_images_before": cache_images_before if not a.record_only else None,
+    "scope": (
+        "Fresh kernel, full-input audit and CPU prediction/serialization replay; "
+        "fingerprinted caches may be reused when cache_images_before is nonzero. Training was not rerun."
+    ),
 }
 out = root / "artifacts/replay"
 out.mkdir(parents=True, exist_ok=True)

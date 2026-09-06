@@ -1,9 +1,9 @@
 {
-  "created_at": "2026-09-06T09:00:06.887148+00:00",
+  "created_at": "2026-09-06T08:59:08.126763+00:00",
   "passed": true,
   "submission_sha256": "4d42e1f7b652801baed85f7513071b98343a8ef5630346934c87dbf2b3f6b1bf",
   "expected_submission_sha256": "4d42e1f7b652801baed85f7513071b98343a8ef5630346934c87dbf2b3f6b1bf",
-  "notebook_sha256": "f3836e13238b686df2f7333d2467a82e296b505efd03b6842ac1a9af67821da1",
+  "notebook_sha256": "849afc3a27ae0e41a3f1f16dd8e78c95b06c82b2e3c27ec1ad17c4d3b73e4edd",
   "source_hashes": {
     "solarseg/__init__.py": "32ca1f85bbbc5f820eac7e237cd01ec16027cc5b3e15028d2af265483e0a9b5b",
     "solarseg/__main__.py": "f887e0af26ca51dc3e89f873e775ffdf4f55426a3d8d25204c4b065a8f312979",
@@ -18,7 +18,7 @@
     "requirements.txt": "12fac5b80df1c561b5cd85e4ba29f580ed13ebffd6e024bb3ae26a0339a567d2"
   },
   "proof": {
-    "created_at": "2026-09-06T09:00:06.656879+00:00",
+    "created_at": "2026-09-06T08:59:07.895955+00:00",
     "completed": true,
     "source_commit": "4cc77325af2e4bebba1de4f30f489db72ea35478",
     "source_hashes": {
@@ -56,10 +56,10 @@
       "zero_detection_images": 2,
       "sha256": "4d42e1f7b652801baed85f7513071b98343a8ef5630346934c87dbf2b3f6b1bf"
     },
-    "elapsed_seconds": 35.1698765000001,
+    "elapsed_seconds": 491.92923291700026,
     "training_rerun": false,
     "holdout_rerun": false
   },
-  "cache_images_before": 180,
-  "scope": "Fresh kernel, full-input audit and CPU prediction/serialization replay; fingerprinted caches may be reused when cache_images_before is nonzero. Training was not rerun."
+  "scope": "Fresh kernel with child-kernel transport, full input audit and full CPU inference from an empty probability cache; training was not rerun.",
+  "cache_images_before": 0
 }

@@ -15,6 +15,8 @@ This repository contains the actual data audit, training/inference code, literat
 | Read or run | Purpose |
 |---|---|
 | [Canonical notebook](notebooks/canonical.ipynb) | Explained workflow from official inputs to a validated submission |
+| [Public Kaggle notebook](https://www.kaggle.com/code/srivatsavkannan/solar-filaments-canonical-baseline-2026) | Competition-associated, executable copy of the canonical workflow |
+| [Model and evidence release](https://github.com/srivatsav-kannan/solar-seg/releases/tag/baseline-v0.1) | Checkpoint, configuration, report, validation, and SHA-256 checksums |
 | [Competition requirements](docs/competition.md) | Rules, dates, input/output contract, host clarifications, final-entry obligations |
 | [Literature review](docs/literature-review.md) | Solar-specific papers and related instance/topology methods; evidence and limitations |
 | [Validation and gates](docs/validation.md) | Grouped splits, metric fidelity, holdout discipline, release criteria |
@@ -34,8 +36,9 @@ The frozen candidate is a width-24 U-Net with four-flip probability averaging. I
 | Larger U-Net, calibration | 0.32211 |
 | Selected model + four flips, calibration | **0.33137** |
 | Selected model, protected holdout | **0.34625** |
+| Kaggle public leaderboard, submission 56050854 | **0.30** |
 
-The holdout's physical-image bootstrap 95% interval is **[0.32877, 0.36327]**. Calibration was used for tuning; its maximum is optimistically biased. The candidate was frozen before holdout inspection. Server scoring and notebook replay are recorded separately once completed. [Full ledger](docs/experiments.md).
+The holdout's physical-image bootstrap 95% interval is **[0.32877, 0.36327]**. Calibration was used for tuning; its maximum is optimistically biased. The candidate was frozen before holdout inspection. Kaggle returned `COMPLETE` for the first submission on 6 September 2026. Independent local CPU inference and a fresh-kernel notebook replay produced the same CSV: 1,645 instances across 180 processed observations, including two zero-detection images. The public score is an initial baseline; the leading displayed score was 0.56 when checked. [Full ledger](docs/experiments.md), [server receipt](reports/submission-record.json).
 
 The split is **399 training / 149 calibration / 145 holdout / 14 embargoed physical images**. We group 27-day blocks, keep all annotators of an observation together, audit exact duplicates, and apply a three-day embargo to training observations. Remaining long-range temporal dependence is a limitation. The official pooled, per-annotator PQ implementation is checked numerically against the organizer notebook.
 
@@ -60,9 +63,11 @@ python -m solarseg audit
 python scripts/reproduce.py --data data/raw --output artifacts/reproduced
 ```
 
-The reproduction script downloads the released checkpoint, verifies its SHA-256 and the input/split fingerprints, runs CPU inference on every test image, and validates `artifacts/reproduced/submission.csv`. The release checkpoint must be published before this command can finish. Platform differences may change a few floating-point boundary decisions; exact cross-architecture bitwise reproduction is not assumed.
+The reproduction script downloads the [released checkpoint](https://github.com/srivatsav-kannan/solar-seg/releases/download/baseline-v0.1/model.pt), verifies its SHA-256 and the input/split fingerprints, runs CPU inference on every test image, and validates `artifacts/reproduced/submission.csv`. Anonymous checkpoint download has been checked against the recorded hash. Platform differences may change a few floating-point boundary decisions; exact cross-architecture bitwise reproduction is not assumed.
 
 The [canonical notebook](notebooks/canonical.ipynb) runs the same modules. Its default is audit + released-model inference. Set `RUN_TRAINING=True` to execute the recorded training recipe; set `RUN_HOLDOUT=True` only for an explicitly labeled reproduction of the already-exposed holdout. Notebook inference replay does not imply training was rerun.
+
+On Kaggle, the notebook installs the pinned environment into a temporary virtual environment and sends each `%%solarseg` cell to one fresh, persistent kernel. This avoids upgrading NumPy inside Kaggle's already-running kernel. Cell outputs still appear in the notebook. Locally, the magic executes in your installed kernel. The CPU PyTorch build uses the same pinned base version and records its platform suffix in the run evidence. [Notebook execution details](docs/notebook-runtime.md).
 
 The PDF's editable LaTeX is in `reports/source/`. It was built with TeX Live 2024 and `acmart` 2.03; these system dependencies are separate from the Python requirements. The report preserves the host's fixed subtitle, abstract opening, introduction paragraph, and acknowledgment.
 

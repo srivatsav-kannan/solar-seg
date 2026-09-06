@@ -1,0 +1,24 @@
+{
+  "verified_at": "2026-09-06T08:52:38.125001+00:00",
+  "public": true,
+  "url": "https://github.com/srivatsav-kannan/solar-seg/releases/tag/baseline-v0.1",
+  "asset_count": 11,
+  "all_uploaded_asset_digests_match": true,
+  "anonymous_download_verified": [
+    "model.pt",
+    "checksums.json",
+    "baseline-report.pdf"
+  ],
+  "checksums": {
+    "LICENSE": "0d9ce21c901a6813694fbfe9ca6e991f1f077347ca26c605bb009b1f20bd0bdc",
+    "baseline-report.pdf": "3869b1d48bef3a2bb1e68062c4402f4ab7c160e2d3f55e42ca8e05d9202b05ee",
+    "holdout.json": "fbc571242ab03cc93986c6101d019eac7076edaaea08c43608b54727692f508f",
+    "model.pt": "d41c82a2a2310791ff234bc784f765d7b986bf569990ac32a25206c8153f6518",
+    "postprocess.json": "468e7a91b73dc48d504d1099a18aa3482e6624d7931b0184d37345274fe310cc",
+    "replay-record.json": "e00d2b32947f65cd965fe3cfecf7e53ae6f7c67a28ef2c196e5a676e26d449b2",
+    "selected.json": "f8135610af4c5326ade71c69ad5936f076f05789518923de971c624428016021",
+    "submission-gates.json": "c4847ee5328fee9860c4aeb9954a6cef2fa7adaf9dbbc255fae8bea110736cf8",
+    "submission-validation.json": "3cf8899c91ca4eb87e4de349de6ddf888fe60622db862482d15516c19d63336e",
+    "training-config.json": "f71a0bef48696c4208f465a134aa1e19b3673bb1de9796d7016cce305ab4648d"
+  }
+}

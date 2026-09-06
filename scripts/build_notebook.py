@@ -61,7 +61,6 @@ SOURCE_COMMIT = SOURCEVALUE
 EXPECTED_SOURCE = HASHVALUE
 RUN_TRAINING = False
 RUN_HOLDOUT = False
-INSTALL_DEPENDENCIES = Path("/kaggle").exists()
 REPO = "srivatsav-kannan/solar-seg"
 
 ROOT = Path.cwd()
@@ -84,15 +83,60 @@ for name, expected in EXPECTED_SOURCE.items():
 os.chdir(ROOT)
 sys.path.insert(0, str(ROOT))
 assert sys.version_info >= (3, 12), "Use Python 3.12 or newer with the pinned dependencies"
-if INSTALL_DEPENDENCIES:
-    subprocess.run([sys.executable, "-m", "pip", "install", "--quiet", "-r", "requirements.txt"], check=True)
 print("Source revision:", SOURCE_COMMIT)
 """
-code(
-    bootstrap.replace("SOURCEVALUE", repr(a.source_commit)).replace(
-        "HASHVALUE", repr(source_hashes())
-    )
+bootstrap = bootstrap.replace("SOURCEVALUE", repr(a.source_commit)).replace(
+    "HASHVALUE", repr(source_hashes())
 )
+isolation = r'''
+# Kaggle may preload NumPy before this cell. Never upgrade its live kernel.
+# Each %%solarseg cell below runs in one persistent, clean child kernel there.
+from IPython.core.magic import register_cell_magic
+
+ISOLATED_KERNEL = Path("/kaggle").exists() or os.environ.get("SOLARSEG_ISOLATE") == "1"
+if ISOLATED_KERNEL:
+    import atexit
+    from jupyter_client import KernelManager
+
+    isolated_python = os.environ.get("SOLARSEG_ISOLATED_PYTHON")
+    if not isolated_python:
+        env_dir = Path("/tmp/solarseg-pinned-env")
+        # Kaggle's Debian Python omits ensurepip; host pip can manage a pip-less venv.
+        subprocess.run([sys.executable, "-m", "venv", "--without-pip", str(env_dir)], check=True)
+        isolated_python = str(env_dir / "bin/python")
+        pip_command = [sys.executable, "-m", "pip", "--python", isolated_python]
+        # CPU build avoids downloading unused CUDA libraries for this CPU replay.
+        subprocess.run([*pip_command, "install", "--quiet", "--no-cache-dir",
+                        "torch==2.14.0", "--index-url", "https://download.pytorch.org/whl/cpu"], check=True)
+        subprocess.run([*pip_command, "install", "--quiet", "--no-cache-dir",
+                        "-r", str(ROOT / "requirements.txt")], check=True)
+    kernel_manager = KernelManager(kernel_name="python3")
+    kernel_manager.kernel_spec.argv = [isolated_python, "-m", "ipykernel_launcher", "-f", "{connection_file}"]
+    child_env = dict(os.environ)
+    child_env.pop("PYTHONPATH", None)
+    child_env.pop("PYTHONHOME", None)
+    kernel_manager.start_kernel(cwd=str(ROOT), env=child_env)
+    kernel_client = kernel_manager.blocking_client()
+    kernel_client.start_channels()
+    kernel_client.wait_for_ready(timeout=120)
+    atexit.register(lambda: kernel_manager.shutdown_kernel(now=True))
+
+    def execute_isolated(source):
+        reply = kernel_client.execute_interactive(source, timeout=7200, allow_stdin=False)
+        if reply["content"]["status"] != "ok":
+            raise RuntimeError("Isolated cell failed: " + str(reply["content"]))
+
+    execute_isolated(COMMON_INIT + f"\nRUN_TRAINING={RUN_TRAINING!r}\nRUN_HOLDOUT={RUN_HOLDOUT!r}")
+
+@register_cell_magic
+def solarseg(line, cell):
+    if ISOLATED_KERNEL:
+        execute_isolated(cell)
+    else:
+        result = get_ipython().run_cell(cell)
+        result.raise_error()
+'''
+code(bootstrap + "\nCOMMON_INIT = " + repr(bootstrap) + "\n" + isolation)
 code(f"""
 import time
 import numpy as np
@@ -278,6 +322,13 @@ if Path("/kaggle").exists():
 print("Validated CSV:", WORK / "submission.csv")
 """)
 notebook = nbf.v4.new_notebook(cells=cells)
+first_code = True
+for cell in notebook.cells:
+    if cell.cell_type == "code":
+        if first_code:
+            first_code = False
+        else:
+            cell.source = "%%solarseg\n" + cell.source
 notebook.metadata = {
     "kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
     "language_info": {"name": "python", "version": "3.12.10"},

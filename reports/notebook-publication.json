@@ -1,0 +1,16 @@
+{
+  "verified_at": "2026-09-06T08:59:22.593281+00:00",
+  "url": "https://www.kaggle.com/code/srivatsavkannan/solar-filaments-canonical-baseline-2026",
+  "anonymous_source_download": true,
+  "version": 3,
+  "private": false,
+  "internet": true,
+  "gpu": false,
+  "competition_sources": [
+    "filament-segmentation-2026"
+  ],
+  "docker_image": "gcr.io/kaggle-images/python@sha256:dafd4ce5668bbf1ad422e4c109e0f18c9623c3a7c7f48b0235f13142755c40b9",
+  "execution_status": "RUNNING; proof pending",
+  "canonical_cell_sources_match": true,
+  "canonical_sha256": "f3836e13238b686df2f7333d2467a82e296b505efd03b6842ac1a9af67821da1"
+}

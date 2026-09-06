@@ -1,6 +1,6 @@
 # Competition requirements and source audit
 
-Verified **6 September 2026** from all 19 competition content pages, the complete Rules and Foundational Rules, the organizer's self-evaluation notebook, and discussion replies obtained through the Kaggle API. Official material is cached locally in the ignored `references/official/` directory. Refresh with `python scripts/refresh_sources.py`. This document records operational requirements; the linked official rules remain authoritative.
+Verified **6 September 2026** from all 17 retrieved competition content pages, the separate data description, complete Rules and Foundational Rules, the organizer's self-evaluation notebook, and discussion replies obtained through the Kaggle API. Official material is cached locally in the ignored `references/official/` directory. Refresh with `python scripts/refresh_sources.py`. This document records operational requirements; the linked official rules remain authoritative.
 
 ## Task and judging
 
@@ -25,16 +25,16 @@ The advertised rubric is 70% quantitative (PQ, IoU/Dice distributions, fragmenta
 | No overlapping predicted instances | One pixel belongs to at most one instance | Validated |
 | No external test annotations / hand labeling test or validation | Competition training JSON only | Implemented |
 | Inference from supplied H-alpha images | Grayscale JPEG input only | Implemented |
-| Public Git repository, accessible without approval | Owner's GitHub; MIT source license | Release workflow |
-| Source public immediately at close until winners announced | Keep public throughout once published | Release workflow |
-| Public competition code also shared on Kaggle | Publish associated canonical notebook | Required release step |
+| Public Git repository, accessible without approval | [Public repository](https://github.com/srivatsav-kannan/solar-seg); MIT source license | Verified public |
+| Source public immediately at close until winners announced | Keep public through winner announcement | Public now; ongoing obligation |
+| Public competition code also shared on Kaggle | [Associated canonical notebook](https://www.kaggle.com/code/srivatsavkannan/solar-filaments-canonical-baseline-2026) | Source published; execution evidence tracked separately |
 | Exact utilized package versions | `requirements.txt` and optional development pins | Implemented |
-| Notebook demonstrates entire pipeline | Canonical notebook calls reusable modules | Required release step |
-| Reproduce predictions without requesting missing private files | Publish checkpoint/config/checksums with source; official input acquired from Kaggle | Release gate |
-| Report in supplied Overleaf template, one PDF | Main content at most four pages, excluding Acknowledgment and References; fixed black text preserved | Final package gate |
+| Notebook demonstrates entire pipeline | Canonical notebook calls reusable modules; training is an explicit opt-in | Implemented; local CPU replay passed |
+| Reproduce predictions without requesting missing private files | [Checkpoint/config/checksums release](https://github.com/srivatsav-kannan/solar-seg/releases/tag/baseline-v0.1); official input acquired from Kaggle | Anonymous model download verified |
+| Report in supplied Overleaf template, one PDF | Main content at most four pages, excluding Acknowledgment and References; fixed black text preserved | Draft PDF: three main pages + one acknowledgment/reference page; contact details pending |
 | Final Google form, accurate team/contact/repository/report details | Form submission is separate from Kaggle CSV upload | **Pending authenticated access and final package** |
 | Explain and defend AI-assisted code | `docs/understanding.md`, code walkthrough, experiment evidence | Participant preparation |
-| Complete training and inference code/environment | Modules, notebook, scripts, configs, run records | Required release step |
+| Complete training and inference code/environment | Modules, notebook, scripts, configs, run records | Published |
 | Winner license / documents | OSI-approved source license; licenses/releases and tax forms if selected | Conditional on winning |
 | Banking / vendor onboarding | Valid bank capable of receiving US institutional payments; host has not specified all international details | Conditional on winning |
 
@@ -55,7 +55,7 @@ The JSON image key is an **annotator-prefixed string**, such as `040301-20140609
 
 ## Actual output contract
 
-Write one row per **predicted instance**, not one row per image or one row per known annotation. The suffix makes the row unique; it is not matched to a ground-truth index. The evaluator matches masks by overlap. Counts are compressed COCO RLE, not space-separated Kaggle run-length pairs. Encode a Fortran-contiguous `uint8` mask, then decode the bytes to ASCII. Pandas may apply normal CSV escaping; do not manually surround the field's content with quotes. Zero detections produce zero rows for that image and an explicit zero in the local coverage manifest. This behavior still needs server verification on the first real submission.
+Write one row per **predicted instance**, not one row per image or one row per known annotation. The suffix makes the row unique; it is not matched to a ground-truth index. The evaluator matches masks by overlap. Counts are compressed COCO RLE, not space-separated Kaggle run-length pairs. Encode a Fortran-contiguous `uint8` mask, then decode the bytes to ASCII. Pandas may apply normal CSV escaping; do not manually surround the field's content with quotes. Zero detections produce zero rows for that image and an explicit zero in the local coverage manifest. Verified by accepted, scored submission 56050854: 180 images processed, 178 with predictions, two with zero predictions, and 1,645 CSV rows.
 
 The host confirmed overlapping masks are rejected. Connected-component extraction guarantees non-overlap; future Mask R-CNN/Mask2Former outputs need a deterministic mask-ownership step. Empty masks, duplicate masks, unknown stems, malformed counts, incomplete inference, and NaN probabilities fail preflight. [Submission instructions](https://www.kaggle.com/competitions/filament-segmentation-2026/overview/submission-file), [host overlap confirmation](https://www.kaggle.com/competitions/filament-segmentation-2026/discussion/735377).
 
@@ -79,4 +79,4 @@ Eligibility includes account registration, applicable age/majority requirements,
 
 Read: overview/abstract, announcements, important dates, final submission, description, evaluation, self-evaluation, leaderboard ranking, submission file, prizes, open-access policy, organizers, sponsor, acknowledgment, data description, specific rules, and all 18 foundational-rule sections. Read all available discussion roots and replies; refreshed pagination is captured by the SDK script. The organizer notebook was pulled and its matching/aggregation code inspected and tested.
 
-The report template is accessible through its anonymous read-only link. The **Google form requires Google authentication** through the HTTP route; its exact field list has not yet been verified. Do not mark final entry complete until it is read and a successful final submission receipt exists. The platform does not expose all server-side edge checks in the self-evaluation notebook, so the first valid CSV must be checked for server acceptance. Separate entry/merger deadlines are not distinctly listed in the retrieved Important Dates text; recheck platform settings before any team change.
+The report template is accessible through its anonymous read-only link. The **Google form requires Google authentication** through the HTTP route; its exact field list has not yet been verified. Do not mark final entry complete until it is read and a successful final submission receipt exists. The first CSV was accepted and scored by Kaggle (`COMPLETE`, public PQ 0.30); this verifies the actual submitted artifact, not every hypothetical format edge case. Separate entry/merger deadlines are not distinctly listed in the retrieved Important Dates text; recheck platform settings before any team change.

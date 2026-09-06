@@ -1,0 +1,17 @@
+{
+  "checked_at": "2026-09-06T08:52:27.242226+00:00",
+  "source": "https://www.kaggle.com/competitions/filament-segmentation-2026/leaderboard",
+  "snapshot_file": "filament-segmentation-2026-publicleaderboard-2026-09-06T08:51:02.csv",
+  "entries": 521,
+  "leading_displayed_score": "0.56",
+  "our_entry": {
+    "Rank": "320",
+    "TeamId": "16842432",
+    "TeamName": "Srivatsav Kannan",
+    "LastSubmissionDate": "2026-09-06 08:34:49",
+    "Score": "0.30",
+    "SubmissionCount": "1",
+    "TeamMemberUserNames": "srivatsavkannan"
+  },
+  "limitation": "Public rounded scores and rank at this snapshot; not final private ranking."
+}

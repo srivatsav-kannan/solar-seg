@@ -17,11 +17,21 @@ Candidate selection was written to `configs/selected.json` before opening holdou
 
 The TTA calibration gain over v2 full-frame was +0.00926 PQ, clearing the declared +0.005 promotion threshold. Width/context/update budget were changed together in v2, so this is a configuration comparison, not an isolated architectural ablation. Calibration maxima remain optimistically biased.
 
+A subsequent uncertainty sensitivity check resampled all 27 original holdout time/duplicate groups, retaining their physical images and annotators together. With 5,000 draws and seed 2026, the 95% block-bootstrap interval is **[0.32166, 0.36834]**, wider than the physical-image interval. This reuses the frozen counts without new inference or model selection. It still cannot remove dependence between structures recurring across time blocks. See `reports/temporal-bootstrap.json` and `scripts/block_bootstrap.py`.
+
 Size-stratified holdout recall is 50.85% for masks below 1,000 pixels (706 annotated comparisons), 66.70% for 1,000–10,000 pixels (871), and 32.43% for at least 10,000 pixels (37). The large-mask estimate has a small sample and is consistent with the truncation/fragmentation visible in the gallery. This strengthens the priority of context and instance reconstruction; small-object filtering is not the only bottleneck.
 
 Holdout inference used MPS. The actual submission and independent notebook replay use CPU. Three deterministic calibration examples showed maximum CPU/MPS probability differences below 0.000045 and identical instance counts. This is a limited compatibility check, not a claim of bitwise equivalence on every image or on Linux. See `reports/cpu-mps-compatibility.json`.
 
 ## Reproduction and provenance
+
+The first competition upload is **submission 56050854**, submitted through the Kaggle SDK on 6 September 2026. Kaggle returned `COMPLETE`, no scoring error, and **public PQ 0.30**. The downloaded leaderboard snapshot at 08:51 UTC listed this entry 320th of 521, with a displayed leading score of 0.56. Scores are rounded by the platform; this is a time-stamped development result, not a final rank or a competitive success claim. See `reports/submission-record.json` and `reports/leaderboard-snapshot.json`.
+
+The independent local CPU command and first fresh-kernel canonical replay both processed all 180 test images and produced the exact same CSV SHA-256: `4d42e1f7b652801baed85f7513071b98343a8ef5630346934c87dbf2b3f6b1bf`. There are 1,645 instances, 178 images with predictions, and two with no predictions. Kaggle acceptance verifies that this actual zero-row case was handled successfully. The notebook inference took 642.6 seconds while another CPU inference job ran concurrently; that timing is not an isolated machine benchmark.
+
+The first local notebook finished before its independent reference CSV. Its wrapper initially failed only at the final comparison because that reference file did not yet exist. After the reference finished, `--record-only` verified the complete executed notebook's cell sources, execution counts, absence of errors, and equal CSV hash. `reports/submission-replay-v1.json` preserves this pre-submission evidence. No missing inference was represented as completed.
+
+The first public Kaggle notebook run failed on a live-kernel NumPy/SciPy version mismatch. The updated notebook isolates its pinned runtime; this changes execution setup, not the selected model, reconstruction parameters, or submitted CSV. See [notebook runtime](notebook-runtime.md) for the failure and reproduction procedure.
 
 - Split: 399 optimization / 149 calibration / 145 holdout / 14 embargoed physical images. Seed 2026.
 - Split SHA-256: `ebec49b919b111f0591f1740cc10a470c127371203e7522c683c9ec5a34283b8`.
@@ -35,4 +45,4 @@ Holdout inference used MPS. The actual submission and independent notebook repla
 
 The full-frame/tile/context/TTA comparison and first protected holdout evaluation are complete. CPU replay, server scoring, and final-entry packaging are tracked in the release evidence.
 
-Further campaigns should prioritize native detail, boundary/affinity supervision, detector-plus-refiner instance models, and complementary ensembles. These are research plans, not implemented results. See [the literature review](literature-review.md) for evidence and limitations.
+Further campaigns should prioritize native detail, boundary/affinity supervision, detector-plus-refiner instance models, and complementary ensembles. These are research plans, not implemented results. See [the literature review](literature-review.md) for evidence and limitations and [the next campaign protocol](next-campaign.md) for a concrete order and decision budget.
