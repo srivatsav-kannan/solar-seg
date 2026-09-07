@@ -1,0 +1,50 @@
+{
+  "created_at": "2026-09-07T12:11:18.253026+00:00",
+  "plan_sha256": "f60f462ecbaf5ce593cbbd435ca4644d1b60cae4366ce56e1b64fc13f31396e1",
+  "comparison": {
+    "reference": {
+      "tp": 1054,
+      "fp": 1193,
+      "fn": 730,
+      "iou_sum": 698.6202376908097,
+      "pq": 0.3466237845154104,
+      "sq": 0.6628275499912806,
+      "rq": 0.5229471595137682
+    },
+    "candidate": {
+      "tp": 1039,
+      "fp": 1150,
+      "fn": 745,
+      "iou_sum": 688.2273965570797,
+      "pq": 0.34645225097260496,
+      "sq": 0.6623940294100863,
+      "rq": 0.5230304555751322
+    },
+    "pq_gain": -0.00017153354280546873,
+    "paired_block_bootstrap_95ci": [
+      -0.006314466825568224,
+      0.0057559648416182
+    ],
+    "bootstrap_replicates": 5000,
+    "seed": 2026,
+    "groups": 27,
+    "physical_images": 149,
+    "annotator_records": 251,
+    "limitation": "Fixed-model group resampling; this does not remove model-selection bias or capture retraining uncertainty."
+  },
+  "decision": "rejected: context fails the +0.005 gain over the matched control",
+  "submission_made": false,
+  "scope": "Original calibration only; no outer/holdout/test evaluation",
+  "fits": {
+    "control": {
+      "checkpoint_sha256": "7bb6185ff62ee5e72040fa73f0bb2606ff6f171dee9981cfddf351b44d94c587",
+      "config_sha256": "974fce5d94d19a47a47aac6f16d4df5a585158e7b0a8e68ed256e962a0470948",
+      "training_seconds": 342.69467637499974
+    },
+    "context": {
+      "checkpoint_sha256": "633dfddb77649b96860b98466dcf69ba55dc30bb460a49b8dd27f657ca80929f",
+      "config_sha256": "99bebd6e7c782424bf81c549f20004a282dc7fece665e90b966d77a320fddf40",
+      "training_seconds": 361.8707784999997
+    }
+  }
+}

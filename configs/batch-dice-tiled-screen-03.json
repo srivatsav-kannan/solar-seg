@@ -1,0 +1,18 @@
+{
+  "created_at": "2026-09-07T12:11:18.259725+00:00",
+  "checkpoint": "artifacts/cloud-warm-02/warm-02/batch-dice-finetune-v1/model.pt",
+  "checkpoint_sha256": "8e5429f8d6b5b6568fcd88493dce30855f84385f458f7770780af63d6dbfa281",
+  "manifest": "configs/manifests/train_manifest.csv",
+  "manifest_sha256": "ebec49b919b111f0591f1740cc10a470c127371203e7522c683c9ec5a34283b8",
+  "run": "artifacts/batch-dice-tiled-03",
+  "inference": {
+    "tta": true,
+    "tile": 384,
+    "size": 1024
+  },
+  "reference": "artifacts/batch-dice-finetune-v1-tta/calibration-summary.json",
+  "reference_sha256": "dbdde0ccdba75022abc701947678683538b6d6e7e9dbfc284ca5975c9b1add5a",
+  "grid": "same existing 25 settings",
+  "screen_gate": "At least +0.005 pooled calibration PQ over the full-frame reference and positive paired temporal bootstrap lower bound; inspect morphology before advancement. No automatic submission.",
+  "scope": "Original calibration only; prior calibration tuning acknowledged. Any promotion requires a separately frozen subsequent-development evaluation protocol."
+}

@@ -1,0 +1,52 @@
+{
+  "created_at": "2026-09-07T12:15:36.953969+00:00",
+  "plan_sha256": "5ba36379e1b3041b82e4dabdd2d556bde7f9a40ae480e7cc661e654fd459779e",
+  "comparison": {
+    "reference": {
+      "tp": 1041,
+      "fp": 1193,
+      "fn": 743,
+      "iou_sum": 691.8720382516716,
+      "pq": 0.344386280861957,
+      "sq": 0.6646225151312888,
+      "rq": 0.5181682429069189
+    },
+    "candidate": {
+      "tp": 1010,
+      "fp": 1081,
+      "fn": 774,
+      "iou_sum": 671.7954555992244,
+      "pq": 0.3467331383737932,
+      "sq": 0.6651440154447766,
+      "rq": 0.5212903225806451
+    },
+    "pq_gain": 0.00234685751183622,
+    "paired_block_bootstrap_95ci": [
+      -0.00460686915989089,
+      0.010306069622433932
+    ],
+    "bootstrap_replicates": 5000,
+    "seed": 2026,
+    "groups": 27,
+    "physical_images": 149,
+    "annotator_records": 251,
+    "limitation": "Fixed-model group resampling; this does not remove model-selection bias or capture retraining uncertainty."
+  },
+  "selected": {
+    "params": {
+      "threshold": 0.6,
+      "min_area": 400,
+      "closing": 3
+    },
+    "tp": 1010,
+    "fp": 1081,
+    "fn": 774,
+    "iou_sum": 671.7954555992244,
+    "pq": 0.3467331383737932,
+    "sq": 0.6651440154447766,
+    "rq": 0.5212903225806451
+  },
+  "decision": "rejected: gain below the predeclared +0.005 calibration threshold",
+  "submission_made": false,
+  "scope": "Exploratory original calibration only; no additional outer or test evaluation"
+}

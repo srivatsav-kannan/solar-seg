@@ -1,0 +1,48 @@
+{
+  "created_at": "2026-09-06T13:11:32.570360+00:00",
+  "completed": true,
+  "source_commit": "f75664a6ff7a4cb7c6e78a8b1b795ed95928ac66",
+  "source_hashes": {
+    "solarseg/__init__.py": "32ca1f85bbbc5f820eac7e237cd01ec16027cc5b3e15028d2af265483e0a9b5b",
+    "solarseg/__main__.py": "f887e0af26ca51dc3e89f873e775ffdf4f55426a3d8d25204c4b065a8f312979",
+    "solarseg/data.py": "46152a04d6eafbbaeaa234b0bb461450c0b59324a68fb05d029d71cab3a1313b",
+    "solarseg/engine.py": "9358ebc99df66eb669f32eb83ab8118502f799eaddd9e59d3823b66e6d85e0c5",
+    "solarseg/gates.py": "4081730062166a57be537f2c4bfebf936b305449a1414356b205b0b1cba753f3",
+    "solarseg/metrics.py": "9a2d5e5c1bbc7a89250311d1d45af4cda8cfaac8c7eff7cddf5746f69b015b6b",
+    "solarseg/model.py": "37fe7b0e2edc4997a8221fca12f8eec2b6f5314a665ef89a354a73e9ced1238a",
+    "solarseg/postprocess.py": "9b779c5079ed33cff64e521612726ee67a5222506aa61738c2bd7d8c861cb9ce",
+    "solarseg/provenance.py": "2de76b5d199270f50427787e046a1833293697146064b927c342a8d096fa8ad1",
+    "solarseg/submission.py": "8dc9b08bf2ef1ce473fc28ccc3f49f2fa3e526988cf102d0c4b20d70072ad489",
+    "requirements.txt": "12fac5b80df1c561b5cd85e4ba29f580ed13ebffd6e024bb3ae26a0339a567d2"
+  },
+  "checkpoint_sha256": "89ec54f951cfd3ec63f65d36d0368d308b8d3a58def2ba814dc5432e80d84540",
+  "environment": {
+    "python": "3.12.13",
+    "platform": "Linux-6.12.90+-x86_64-with-glibc2.35",
+    "packages": {
+      "torch": "2.14.0+cpu",
+      "numpy": "2.5.2",
+      "pandas": "3.0.5",
+      "pillow": "12.3.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.0",
+      "pycocotools": "2.0.11"
+    }
+  },
+  "validation": {
+    "valid": true,
+    "rows": 1513,
+    "images_processed": 180,
+    "images_with_predictions": 178,
+    "zero_detection_images": 2,
+    "sha256": "edf465dbc5077ed353a95738a59c131f3a19fe77d786ddd56072432e9fd50d1d"
+  },
+  "elapsed_seconds": 2487.5675777650004,
+  "training_rerun": false,
+  "holdout_rerun": false,
+  "full_data_refit": true,
+  "training_manifest_sha256": "531fc072410a04a77bb15310d4ee3a8ccadfeb85bfa1e0a2d233d5532e2b07b5",
+  "cv_comparison_sha256": "c690bc0b494bb9993f48b9d1886b9c65243eeb181daf7d30923fa224e57c228c",
+  "recipe": "baseline then batch-Dice fine-tuning",
+  "validation_scope": "All 707 approved observations are training data. No independent internal holdout score is available for these weights. Promotion requires the separate paired CV gates and morphology review."
+}

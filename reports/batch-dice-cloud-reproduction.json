@@ -1,0 +1,16 @@
+{
+  "checked_at": "2026-09-07T12:11:18.259303+00:00",
+  "kernel": "srivatsavkannan/solar-filaments-batch-dice-2026",
+  "status": "COMPLETE",
+  "local_and_cloud_csv_identical": false,
+  "local_sha256": "9ae19115b1da6a997e3b494e714c631bba17acb711efc76c391cd61e7ffe4ec3",
+  "cloud_sha256": "edf465dbc5077ed353a95738a59c131f3a19fe77d786ddd56072432e9fd50d1d",
+  "instances": 1513,
+  "changed_instances": 1,
+  "changed_pixels": 1,
+  "changed_instance": "20111216174914Mh_5",
+  "local_area": 3166,
+  "cloud_area": 3165,
+  "changed_instance_iou": 0.9996841440303221,
+  "scope": "Near-identical CPU inference across macOS arm64 and Linux x86-64; one boundary pixel differs. No retraining or new submission. Local fresh notebook replay was byte-identical."
+}

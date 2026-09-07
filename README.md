@@ -31,6 +31,8 @@ The latest candidate uses **batch Dice plus 3,000 additional training updates**.
 
 [Latest executable notebook](notebooks/batch_dice.ipynb) · [Kaggle copy](https://www.kaggle.com/code/srivatsavkannan/solar-filaments-batch-dice-2026) · [Checkpoint and reproduction assets](https://github.com/srivatsav-kannan/solar-seg/releases/tag/batch-dice-v0.3) · [Paired validation](reports/batch-dice-cv-comparison.json) · [Submission receipt](reports/batch-dice-submission-record.json).
 
+The next matched context experiment and tiled-inference screen failed their improvement gates; neither was submitted. [Results](reports/context-screen-03.json), [tile screen](reports/batch-dice-tiled-screen-03.json). The latest public Kaggle notebook completed with only one boundary-pixel difference across 1,513 instances relative to the submitted CSV; see [cross-platform comparison](reports/batch-dice-cloud-reproduction.json).
+
 The frozen candidate is a width-24 U-Net with four-flip probability averaging. It uses no external weights or labels.
 
 | Measurement | PQ |
